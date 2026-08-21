@@ -8,20 +8,21 @@ const db = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
 
 const app = express();
+const dashboardRoutes = require("./src/routes/Indexer/dashboardRoutes");
 // Imports Project routes 
-const projectRoutes = require("./src/routes/projectRoutes");
+const projectRoutes = require("./src/routes/Indexer/projectRoutes");
 // Imports dailyEntry routes 
-const dailyEntryRoutes = require("./src/routes/dailyEntryRoutes");
+const dailyEntryRoutes = require("./src/routes/Indexer/dailyEntryRoutes");
 // Imports guideRoutes routes
-const guideRoutes = require("./src/routes/guideRoutes");
+const guideRoutes = require("./src/routes/Indexer/guideRoutes");
 // Imports correction request routes
-const correctionRoutes = require("./src/routes/correctionRoutes");
+const correctionRoutes = require("./src/routes/Indexer/correctionRoutes");
 // Imports attendance routes
-const attendanceRoutes = require("./src/routes/attendanceRoutes");
+const attendanceRoutes = require("./src/routes/Indexer/attendanceRoutes");
 // Imports notification routes
-const notificationRoutes = require("./src/routes/notificationRoutes");
+const notificationRoutes = require("./src/routes/Indexer/notificationRoutes");
 // Imports profile routes
-const profileRoutes = require("./src/routes/profileRoutes");
+const profileRoutes = require("./src/routes/Indexer/profileRoutes");
 // Imports report routes
 const reportRoutes = require("./src/routes/reportRoutes");
 
@@ -91,6 +92,8 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/profile", profileRoutes);
 // Handles report APIs
 app.use("/api/reports", reportRoutes);
+// Handles dashboard APIs
+app.use("/api/dashboard", dashboardRoutes);
 
 
 // ============================================
@@ -104,3 +107,4 @@ app.listen(PORT, () => {
     `ProdTrack Backend API running on http://localhost:${PORT}`
   );
 });
+

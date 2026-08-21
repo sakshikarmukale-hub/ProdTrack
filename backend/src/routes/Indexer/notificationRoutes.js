@@ -1,13 +1,13 @@
 const express = require("express");
 
-const authenticate = require("../middleware/authMiddleware");
-const allowRoles = require("../middleware/roleMiddleware");
+const authenticate = require("../../middleware/authMiddleware");
+const allowRoles = require("../../middleware/roleMiddleware");
 
 const {
   getMyNotifications,
   markAsRead,
   markAllAsRead,
-} = require("../controllers/notificationController");
+} = require("../../controllers/Indexer/notificationController");
 
 const router = express.Router();
 

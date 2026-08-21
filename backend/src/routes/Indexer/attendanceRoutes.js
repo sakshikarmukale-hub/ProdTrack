@@ -1,12 +1,12 @@
 const express = require("express");
 
-const authenticate = require("../middleware/authMiddleware");
-const allowRoles = require("../middleware/roleMiddleware");
+const authenticate = require("../../middleware/authMiddleware");
+const allowRoles = require("../../middleware/roleMiddleware");
 
 const {
   getMyAttendance,
   getAttendanceSummary,
-} = require("../controllers/attendanceController");
+} = require("../../controllers/Indexer/attendanceController");
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../../config/db");
 
 // Creates a new correction request for the logged-in Indexer
 const createCorrectionRequest = async (req, res) => {

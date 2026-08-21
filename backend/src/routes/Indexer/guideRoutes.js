@@ -8,7 +8,7 @@ const express = require("express");
 // user.
 // ======================================================
 
-const authenticate = require("../middleware/authMiddleware");
+const authenticate = require("../../middleware/authMiddleware");
 
 // ======================================================
 // PURPOSE:
@@ -19,7 +19,7 @@ const authenticate = require("../middleware/authMiddleware");
 // Indexer.
 // ======================================================
 
-const allowRoles = require("../middleware/roleMiddleware");
+const allowRoles = require("../../middleware/roleMiddleware");
 
 // ======================================================
 // Import controller functions
@@ -28,7 +28,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   getLatestGuide,
   acknowledgeGuide,
-} = require("../controllers/guideController");
+} = require("../../controllers/Indexer/guideController");
 
 const router = express.Router();
 
