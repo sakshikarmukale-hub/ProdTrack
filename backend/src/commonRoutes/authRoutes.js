@@ -2,7 +2,7 @@ const express = require("express");
 
 const {
   login,
-} = require("../controllers/authController");
+} = require("../commonControllers/authController");
 
 const authenticate = require("../middleware/authMiddleware");
 const allowRoles = require("../middleware/roleMiddleware");

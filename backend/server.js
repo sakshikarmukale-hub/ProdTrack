@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const db = require("./src/config/db");
-const authRoutes = require("./src/routes/authRoutes");
+const authRoutes = require("./src/commonRoutes/authRoutes");
 
 const app = express();
 const dashboardRoutes = require("./src/IndexerRoutes/dashboardRoutes");
@@ -24,7 +24,7 @@ const notificationRoutes = require("./src/IndexerRoutes/notificationRoutes");
 // Imports profile routes
 const profileRoutes = require("./src/IndexerRoutes/profileRoutes");
 // Imports report routes
-const reportRoutes = require("./src/routes/reportRoutes");
+const reportRoutes = require("./src/commonRoutes/reportRoutes");
 
 // ============================================
 // MIDDLEWARE
