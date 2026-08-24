@@ -1,4 +1,4 @@
-const db = require("../../config/db");
+const db = require("../config/db");
 
 // Gets attendance records for the logged-in user
 const getMyAttendance = async (req, res) => {

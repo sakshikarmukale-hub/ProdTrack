@@ -1,4 +1,4 @@
-const db = require("../../config/db");
+const db = require("../config/db");
 
 const createEntry = async (req, res) => {
   try {

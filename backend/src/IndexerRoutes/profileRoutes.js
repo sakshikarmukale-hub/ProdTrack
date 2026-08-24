@@ -1,10 +1,10 @@
 const express = require("express");
 
-const authenticate = require("../../middleware/authMiddleware");
+const authenticate = require("../middleware/authMiddleware");
 
 const {
   getMyProfile,
-} = require("../../controllers/Indexer/profileController");
+} = require("../IndexerControllers/profileController");
 
 const router = express.Router();
 

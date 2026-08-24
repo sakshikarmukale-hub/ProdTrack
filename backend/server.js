@@ -8,21 +8,21 @@ const db = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
 
 const app = express();
-const dashboardRoutes = require("./src/routes/Indexer/dashboardRoutes");
+const dashboardRoutes = require("./src/IndexerRoutes/dashboardRoutes");
 // Imports Project routes 
-const projectRoutes = require("./src/routes/Indexer/projectRoutes");
+const projectRoutes = require("./src/IndexerRoutes/projectRoutes");
 // Imports dailyEntry routes 
-const dailyEntryRoutes = require("./src/routes/Indexer/dailyEntryRoutes");
+const dailyEntryRoutes = require("./src/IndexerRoutes/dailyEntryRoutes");
 // Imports guideRoutes routes
-const guideRoutes = require("./src/routes/Indexer/guideRoutes");
+const guideRoutes = require("./src/IndexerRoutes/guideRoutes");
 // Imports correction request routes
-const correctionRoutes = require("./src/routes/Indexer/correctionRoutes");
+const correctionRoutes = require("./src/IndexerRoutes/correctionRoutes");
 // Imports attendance routes
-const attendanceRoutes = require("./src/routes/Indexer/attendanceRoutes");
+const attendanceRoutes = require("./src/IndexerRoutes/attendanceRoutes");
 // Imports notification routes
-const notificationRoutes = require("./src/routes/Indexer/notificationRoutes");
+const notificationRoutes = require("./src/IndexerRoutes/notificationRoutes");
 // Imports profile routes
-const profileRoutes = require("./src/routes/Indexer/profileRoutes");
+const profileRoutes = require("./src/IndexerRoutes/profileRoutes");
 // Imports report routes
 const reportRoutes = require("./src/routes/reportRoutes");
 

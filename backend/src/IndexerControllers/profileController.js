@@ -1,4 +1,4 @@
-const db = require("../../config/db");
+const db = require("../config/db");
 
 // Gets profile details for the logged-in user
 const getMyProfile = async (req, res) => {

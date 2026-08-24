@@ -1,12 +1,12 @@
 const express = require("express");
 
-const authenticate = require("../../middleware/authMiddleware");
-const allowRoles = require("../../middleware/roleMiddleware");
+const authenticate = require("../middleware/authMiddleware");
+const allowRoles = require("../middleware/roleMiddleware");
 
 const {
   createCorrectionRequest,
   getMyCorrectionRequests,
-} = require("../../controllers/Indexer/correctionController");
+} = require("../IndexerControllers/correctionController");
 
 const router = express.Router();
 

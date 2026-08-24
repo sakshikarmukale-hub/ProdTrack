@@ -1,4 +1,4 @@
-const db = require("../../config/db");
+const db = require("../config/db");
 
 // Gets Indexer dashboard summary data
 const getIndexerDashboard = async (req, res) => {
