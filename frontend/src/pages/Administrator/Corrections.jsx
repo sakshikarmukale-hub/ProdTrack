@@ -1,3 +1,125 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-const rows=[['Configuration','Updated today','Active'],['Access control','Last reviewed today','Active'],['Workflow','Version 2.3','Active']];
-export default function Page(){return <Box><Typography sx={{color:'#667085',fontSize:12}}>ProdTrack · Administrator</Typography><Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',mb:2}}><Box><Typography sx={{fontSize:24,fontWeight:800}}>Corrections</Typography><Typography sx={{color:'#667085',fontSize:13}}>Manage correction approval workflow and audit status.</Typography></Box><Button variant="contained">Manage</Button></Box><Paper elevation={0} sx={{border:'1px solid #dbe3ec',borderRadius:2,overflow:'hidden'}}><Table size="small"><TableHead><TableRow><TableCell sx={{fontWeight:800}}>ITEM</TableCell><TableCell sx={{fontWeight:800}}>DETAIL</TableCell><TableCell sx={{fontWeight:800}}>STATUS</TableCell></TableRow></TableHead><TableBody>{rows.map((r,i)=><TableRow key={i}>{r.map((c,j)=><TableCell key={j}>{c}</TableCell>)}</TableRow>)}</TableBody></Table></Paper></Box>}
+import { useState } from "react";
+import { Alert, Box, Button, Chip, Snackbar } from "@mui/material";
+import CorePageShell, { CoreTable } from "../../components/CorePageShell.jsx";
+
+const rows = [
+  [
+    "ABC-2024-0511",
+    "Priya Sharma",
+    "Implant Name",
+    "Typo in device label",
+    "20 May 09:12",
+    "PENDING",
+  ],
+  [
+    "ORT-2024-0320",
+    "Aditya Rao",
+    "Procedure Code",
+    "Wrong CPT code entered",
+    "19 May 14:35",
+    "PENDING",
+  ],
+  [
+    "SPI-2024-0198",
+    "Karan Patel",
+    "Patient DOB",
+    "Date format mismatch",
+    "18 May 11:00",
+    "PENDING",
+  ],
+  [
+    "ABC-2024-0489",
+    "Priya Sharma",
+    "Surgeon Name",
+    "Spelling correction",
+    "17 May 16:20",
+    "APPROVED",
+  ],
+  [
+    "CAR-2024-0077",
+    "Sneha Iyer",
+    "Report Date",
+    "Incorrect month",
+    "16 May 08:55",
+    "REJECTED",
+  ],
+];
+
+const fields = [
+  { name: "entry", label: "Entry ID", placeholder: "e.g. ABC-2024-0511" },
+  { name: "employee", label: "Employee", placeholder: "Employee name" },
+  { name: "field", label: "Field changed", placeholder: "e.g. Implant Name" },
+  { name: "reason", label: "Reason", placeholder: "Brief description" },
+  {
+    name: "status",
+    label: "Status",
+    placeholder: "Pending",
+    options: ["Pending", "Approved", "Rejected"],
+  },
+];
+
+export default function Corrections() {
+  const [notice, setNotice] = useState("");
+
+  function handleAction(row) {
+    setNotice(`Correction for ${row[0]} updated`);
+  }
+
+  return (
+    <>
+      <CorePageShell
+        breadcrumb="Administrator"
+        title="Corrections"
+        description="Manage correction approval workflow and audit status."
+        actionLabel={null}
+      >
+        {/* ── FILTER TABS ── */}
+        <Box sx={{ display: "flex", gap: 1, mb: 2, flexWrap: "wrap" }}>
+          {["All", "Pending", "Approved", "Rejected"].map((tab) => (
+            <Chip
+              key={tab}
+              label={tab}
+              clickable
+              variant={tab === "All" ? "filled" : "outlined"}
+              color={tab === "All" ? "primary" : "default"}
+              size="small"
+              sx={{ fontWeight: 600, fontSize: 11 }}
+            />
+          ))}
+        </Box>
+
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+          <CoreTable
+            columns={[
+              "ENTRY ID",
+              "EMPLOYEE",
+              "FIELD",
+              "REASON",
+              "SUBMITTED",
+              "STATUS",
+            ]}
+            rows={rows}
+            actionLabel="Review"
+            actionVariant="text"
+            onAction={handleAction}
+          />
+        </Box>
+      </CorePageShell>
+
+      <Snackbar
+        open={Boolean(notice)}
+        autoHideDuration={2500}
+        onClose={() => setNotice("")}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setNotice("")}
+        >
+          {notice}
+        </Alert>
+      </Snackbar>
+    </>
+  );
+}

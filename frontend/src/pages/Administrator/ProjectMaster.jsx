@@ -1,3 +1,92 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-const rows=[['Configuration','Updated today','Active'],['Access control','Last reviewed today','Active'],['Workflow','Version 2.3','Active']];
-export default function Page(){return <Box><Typography sx={{color:'#667085',fontSize:12}}>ProdTrack · Administrator</Typography><Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',mb:2}}><Box><Typography sx={{fontSize:24,fontWeight:800}}>Project Master</Typography><Typography sx={{color:'#667085',fontSize:13}}>Maintain project definitions and locking configuration.</Typography></Box><Button variant="contained">Manage</Button></Box><Paper elevation={0} sx={{border:'1px solid #dbe3ec',borderRadius:2,overflow:'hidden'}}><Table size="small"><TableHead><TableRow><TableCell sx={{fontWeight:800}}>ITEM</TableCell><TableCell sx={{fontWeight:800}}>DETAIL</TableCell><TableCell sx={{fontWeight:800}}>STATUS</TableCell></TableRow></TableHead><TableBody>{rows.map((r,i)=><TableRow key={i}>{r.map((c,j)=><TableCell key={j}>{c}</TableCell>)}</TableRow>)}</TableBody></Table></Paper></Box>}
+import { useState } from "react";
+import { Alert, Box, Snackbar } from "@mui/material";
+import CorePageShell, {
+  CoreFormDialog,
+  CoreTable,
+} from "../../components/CorePageShell.jsx";
+
+const rows = [
+  ["ABC Medical Imaging", "Ortho / Imaging", "18", "Rohan Mehta", "ACTIVE"],
+  ["Ortho Kids", "Ortho / Paediatric", "9", "Rohan Mehta", "ACTIVE"],
+  ["Spine Indexing", "Spine / Neurology", "12", "Meera Nair", "ACTIVE"],
+  ["Cardio Records", "Cardiology", "7", "Meera Nair", "ACTIVE"],
+  ["Neuro Scan", "Neurology / Imaging", "5", "Rohan Mehta", "ACTIVE"],
+];
+
+const fields = [
+  {
+    name: "name",
+    label: "Project name",
+    placeholder: "e.g. ABC Medical Imaging",
+  },
+  { name: "category", label: "Category", placeholder: "e.g. Ortho / Imaging" },
+  {
+    name: "lead",
+    label: "Team lead",
+    placeholder: "Rohan Mehta",
+    options: ["Rohan Mehta", "Meera Nair"],
+  },
+  {
+    name: "indexers",
+    label: "No. of indexers",
+    placeholder: "10",
+    type: "number",
+  },
+  {
+    name: "status",
+    label: "Status",
+    placeholder: "Active",
+    options: ["Active", "Inactive"],
+  },
+];
+
+export default function ProjectMaster() {
+  const [open, setOpen] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  return (
+    <>
+      <CorePageShell
+        breadcrumb="Administrator"
+        title="Project Master"
+        description="Maintain project definitions, categories and team assignments."
+        actionLabel="Add project"
+        actionHandler={() => setOpen(true)}
+      >
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+          <CoreTable
+            columns={["PROJECT", "CATEGORY", "INDEXERS", "TEAM LEAD", "STATUS"]}
+            rows={rows}
+            onAction={() => setOpen(true)}
+          />
+        </Box>
+      </CorePageShell>
+
+      <CoreFormDialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          setSaved(true);
+        }}
+        title="Project details"
+        fields={fields}
+        submitLabel="Save project"
+      />
+
+      <Snackbar
+        open={saved}
+        autoHideDuration={2500}
+        onClose={() => setSaved(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setSaved(false)}
+        >
+          Project saved successfully
+        </Alert>
+      </Snackbar>
+    </>
+  );
+}
