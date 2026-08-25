@@ -91,7 +91,7 @@ function StatusChip({ status }) {
       sx={{
         height: 18,
         borderRadius: "5px",
-        fontSize: 8,
+        fontSize: 12,
         fontWeight: 700,
         letterSpacing: 0.3,
         ...styles[status],
@@ -109,11 +109,11 @@ const fieldSx = {
     height: 40,
     borderRadius: "6px",
     bgcolor: "#fff",
-    fontSize: 12,
+    fontSize: 13,
   },
 
   "& .MuiInputLabel-root": {
-    fontSize: 11,
+    fontSize: 14,
   },
 };
 
@@ -165,7 +165,7 @@ export default function IndexerDailyEntry() {
           <Typography
             sx={{
               color: "#64748b",
-              fontSize: 18,
+              fontSize: 13,
               mt: 0.5,
             }}
           >
@@ -248,7 +248,7 @@ export default function IndexerDailyEntry() {
             bgcolor: "#3169e8",
             color: "#fff",
 
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: 700,
 
             height: 25,
@@ -274,7 +274,7 @@ export default function IndexerDailyEntry() {
             bgcolor: "#fff",
             borderColor: "#dbe3ec",
 
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: 600,
 
             height: 25,
@@ -300,7 +300,7 @@ export default function IndexerDailyEntry() {
             bgcolor: "#fff",
             borderColor: "#dbe3ec",
 
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: 600,
 
             height: 25,
@@ -326,7 +326,7 @@ export default function IndexerDailyEntry() {
             bgcolor: "#fff",
             borderColor: "#dbe3ec",
 
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: 600,
 
             height: 25,
@@ -542,7 +542,7 @@ export default function IndexerDailyEntry() {
         sx={{
           color: "#0f172a",
 
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 700,
 
           mb: 0.75,
@@ -589,7 +589,7 @@ export default function IndexerDailyEntry() {
                   sx={{
                     color: "#64748b",
 
-                    fontSize: 8,
+                    fontSize: 11,
                     fontWeight: 700,
 
                     py: 1,
@@ -608,7 +608,7 @@ export default function IndexerDailyEntry() {
               <TableRow key={index}>
                 <TableCell
                   sx={{
-                    fontSize: 9,
+                    fontSize: 13,
                     color: "#475569",
                     py: 0.8,
                   }}
@@ -618,7 +618,7 @@ export default function IndexerDailyEntry() {
 
                 <TableCell
                   sx={{
-                    fontSize: 9,
+                    fontSize: 13,
                     color: "#334155",
                     py: 0.8,
                   }}
@@ -628,7 +628,7 @@ export default function IndexerDailyEntry() {
 
                 <TableCell
                   sx={{
-                    fontSize: 9,
+                    fontSize: 13,
                     color: "#64748b",
                     py: 0.8,
                   }}
@@ -638,7 +638,7 @@ export default function IndexerDailyEntry() {
 
                 <TableCell
                   sx={{
-                    fontSize: 9,
+                    fontSize: 13,
                     color: "#334155",
                     py: 0.8,
                   }}
@@ -648,7 +648,7 @@ export default function IndexerDailyEntry() {
 
                 <TableCell
                   sx={{
-                    fontSize: 9,
+                    fontSize: 13,
                     color: "#334155",
                     py: 0.8,
                   }}
@@ -679,7 +679,7 @@ export default function IndexerDailyEntry() {
 
                         p: 0,
 
-                        fontSize: 8,
+                        fontSize: 11,
 
                         textTransform: "none",
 
@@ -695,7 +695,7 @@ export default function IndexerDailyEntry() {
                   {entry.status === "LOCKED" && (
                     <Typography
                       sx={{
-                        fontSize: 8,
+                        fontSize: 11,
                         color: "#64748b",
                         whiteSpace: "nowrap",
                       }}
