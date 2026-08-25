@@ -1,44 +1,96 @@
 const db = require("../config/db");
 
-// Gets report summary for the logged-in user
+// ======================================================
+// REPORT SUMMARY
+//
+// Indexer:
+//   Returns the logged-in Indexer's production.
+//
+// Team Lead:
+//   Returns production of all members belonging to
+//   the logged-in Team Lead.
+// ======================================================
+
 const getMyReportSummary = async (req, res) => {
   try {
     const userId = req.user.id;
+    const role = req.user.role;
 
-    const [summaryRows] = await db.query(
-      `
-      SELECT
-        COALESCE(SUM(documents_received), 0) AS total_received,
-        COALESCE(SUM(documents_completed), 0) AS total_completed,
-        COALESCE(
-          SUM(documents_received - documents_completed),
-          0
-        ) AS total_pending
-      FROM daily_entries
-      WHERE user_id = ?
-      `,
-      [userId]
+    let rows;
+
+    // =========================
+    // INDEXER REPORT
+    // =========================
+    if (role === "indexer") {
+      [rows] = await db.query(
+        `
+        SELECT
+          COALESCE(SUM(documents_received), 0) AS totalReceived,
+          COALESCE(SUM(documents_completed), 0) AS totalCompleted
+        FROM daily_entries
+        WHERE user_id = ?
+        `,
+        [userId]
+      );
+    }
+
+    // =========================
+    // TEAM LEAD REPORT
+    // =========================
+    else if (role === "teamLead") {
+      [rows] = await db.query(
+        `
+        SELECT
+          COALESCE(SUM(de.documents_received), 0) AS totalReceived,
+          COALESCE(SUM(de.documents_completed), 0) AS totalCompleted
+
+        FROM team_members tm
+
+        LEFT JOIN daily_entries de
+          ON de.user_id = tm.member_id
+
+        WHERE tm.team_lead_id = ?
+        `,
+        [userId]
+      );
+    }
+
+    // =========================
+    // UNSUPPORTED ROLE
+    // =========================
+    else {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to access this report",
+      });
+    }
+
+    const totalReceived = Number(rows[0].totalReceived);
+    const totalCompleted = Number(rows[0].totalCompleted);
+
+    const totalPending = Math.max(
+      totalReceived - totalCompleted,
+      0
     );
 
-    const summary = summaryRows[0];
-
-    const received = Number(summary.total_received);
-    const completed = Number(summary.total_completed);
-
     const completionRate =
-      received > 0
-        ? Math.round((completed / received) * 100)
+      totalReceived > 0
+        ? Math.round(
+            (totalCompleted / totalReceived) * 100
+          )
         : 0;
 
     return res.status(200).json({
       success: true,
+
       summary: {
-        totalReceived: received,
-        totalCompleted: completed,
-        totalPending: Number(summary.total_pending),
+        totalReceived,
+        totalCompleted,
+        totalPending,
         completionRate,
       },
     });
+
   } catch (error) {
     console.error("Report Summary Error:", error);
 
@@ -50,33 +102,111 @@ const getMyReportSummary = async (req, res) => {
   }
 };
 
-// Gets production grouped by date for the logged-in user
+
+// ======================================================
+// DAILY PRODUCTION REPORT
+//
+// Indexer:
+//   Groups logged-in Indexer's production by date.
+//
+// Team Lead:
+//   Groups production of the entire team by date.
+// ======================================================
+
 const getMyDailyProduction = async (req, res) => {
   try {
     const userId = req.user.id;
+    const role = req.user.role;
 
-    const [rows] = await db.query(
-      `
-      SELECT
-        production_date,
-        SUM(documents_received) AS received,
-        SUM(documents_completed) AS completed,
-        SUM(
-          documents_received - documents_completed
-        ) AS pending
-      FROM daily_entries
-      WHERE user_id = ?
-      GROUP BY production_date
-      ORDER BY production_date ASC
-      `,
-      [userId]
-    );
+    let production;
+
+    // =========================
+    // INDEXER
+    // =========================
+    if (role === "indexer") {
+      [production] = await db.query(
+        `
+        SELECT
+          DATE(production_date) AS production_date,
+          DAYNAME(production_date) AS day_name,
+
+          COALESCE(
+            SUM(documents_received),
+            0
+          ) AS received,
+
+          COALESCE(
+            SUM(documents_completed),
+            0
+          ) AS completed
+
+        FROM daily_entries
+
+        WHERE user_id = ?
+
+        GROUP BY
+          DATE(production_date),
+          DAYNAME(production_date)
+
+        ORDER BY DATE(production_date) ASC
+        `,
+        [userId]
+      );
+    }
+
+    // =========================
+    // TEAM LEAD
+    // =========================
+    else if (role === "teamLead") {
+      [production] = await db.query(
+        `
+        SELECT
+          DATE(de.production_date) AS production_date,
+          DAYNAME(de.production_date) AS day_name,
+
+          COALESCE(
+            SUM(de.documents_received),
+            0
+          ) AS received,
+
+          COALESCE(
+            SUM(de.documents_completed),
+            0
+          ) AS completed
+
+        FROM team_members tm
+
+        JOIN daily_entries de
+          ON de.user_id = tm.member_id
+
+        WHERE tm.team_lead_id = ?
+
+        GROUP BY
+          DATE(de.production_date),
+          DAYNAME(de.production_date)
+
+        ORDER BY DATE(de.production_date) ASC
+        `,
+        [userId]
+      );
+    }
+
+    // =========================
+    // UNSUPPORTED ROLE
+    // =========================
+    else {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to access this report",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      count: rows.length,
-      production: rows,
+      count: production.length,
+      production,
     });
+
   } catch (error) {
     console.error("Daily Production Report Error:", error);
 
@@ -87,6 +217,11 @@ const getMyDailyProduction = async (req, res) => {
     });
   }
 };
+
+
+// ======================================================
+// EXPORTS
+// ======================================================
 
 module.exports = {
   getMyReportSummary,

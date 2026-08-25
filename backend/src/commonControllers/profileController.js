@@ -4,6 +4,7 @@ const db = require("../config/db");
 const getMyProfile = async (req, res) => {
   try {
     const userId = req.user.id;
+    const role = req.user.role;
 
     const [users] = await db.query(
       `
@@ -29,23 +30,60 @@ const getMyProfile = async (req, res) => {
       });
     }
 
-    const [projects] = await db.query(
-      `
-      SELECT
-        p.id,
-        p.project_code,
-        p.project_name,
-        p.client_name,
-        p.reporting_category,
-        p.status
-      FROM user_project_assignments upa
-      JOIN projects p
-        ON p.id = upa.project_id
-      WHERE upa.user_id = ?
-      ORDER BY p.project_name ASC
-      `,
-      [userId]
-    );
+    let projects = [];
+
+    // Gets projects directly assigned to an Indexer
+    if (role === "indexer") {
+      [projects] = await db.query(
+        `
+        SELECT
+          p.id,
+          p.project_code,
+          p.project_name,
+          p.client_name,
+          p.reporting_category,
+          p.status
+
+        FROM user_project_assignments upa
+
+        JOIN projects p
+          ON p.id = upa.project_id
+
+        WHERE upa.user_id = ?
+
+        ORDER BY p.project_name ASC
+        `,
+        [userId]
+      );
+    }
+
+    // Gets projects handled by members of the Team Lead's team
+    else if (role === "teamLead") {
+      [projects] = await db.query(
+        `
+        SELECT DISTINCT
+          p.id,
+          p.project_code,
+          p.project_name,
+          p.client_name,
+          p.reporting_category,
+          p.status
+
+        FROM team_members tm
+
+        JOIN user_project_assignments upa
+          ON upa.user_id = tm.member_id
+
+        JOIN projects p
+          ON p.id = upa.project_id
+
+        WHERE tm.team_lead_id = ?
+
+        ORDER BY p.project_name ASC
+        `,
+        [userId]
+      );
+    }
 
     return res.status(200).json({
       success: true,

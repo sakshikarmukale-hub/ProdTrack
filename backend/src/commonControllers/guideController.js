@@ -1,78 +1,152 @@
 const db = require("../config/db");
 
 // ======================================================
-// PURPOSE:
-// Get the latest active guide assigned to the logged-in
-// Indexer and also check whether that Indexer has already
-// acknowledged that guide.
+// GET LATEST ACTIVE GUIDE
+// Works for:
+// - Indexer
+// - Team Lead
 // ======================================================
 
 const getLatestGuide = async (req, res) => {
   try {
-    // req.user.id comes from JWT authentication middleware.
-    // This is the currently logged-in user's database ID.
     const userId = req.user.id;
+    const role = req.user.role;
 
-    // --------------------------------------------------
-    // Get latest active guide for a project assigned
-    // to this user.
-    //
-    // LEFT JOIN guide_acknowledgements allows us to know
-    // whether the user has acknowledged this guide.
-    // --------------------------------------------------
+    let guides = [];
 
-    const [guides] = await db.query(
-      `
-      SELECT
-        g.id,
-        g.project_id,
-        g.title,
-        g.version,
-        g.description,
-        g.updated_date,
-        g.effective_date,
-        g.file_url,
-        g.status,
+    // ==================================================
+    // INDEXER
+    // Gets latest guide from projects assigned directly
+    // to the logged-in Indexer.
+    // ==================================================
 
-        p.project_name,
+    if (role === "indexer") {
+      [guides] = await db.query(
+        `
+        SELECT
+          g.id,
+          g.project_id,
+          g.title,
+          g.version,
+          g.description,
+          g.updated_date,
+          g.effective_date,
+          g.file_url,
+          g.status,
+          g.created_at,
 
-        CASE
-          WHEN ga.id IS NULL THEN FALSE
-          ELSE TRUE
-        END AS acknowledged
+          p.project_name,
 
-      FROM guides g
+          CASE
+            WHEN ga.id IS NULL THEN 0
+            ELSE 1
+          END AS acknowledged
 
-      -- Get project information for the guide
-      JOIN projects p
-        ON p.id = g.project_id
+        FROM guides g
 
-      -- Check acknowledgement for the logged-in user
-      LEFT JOIN guide_acknowledgements ga
-        ON ga.guide_id = g.id
-        AND ga.user_id = ?
+        JOIN projects p
+          ON p.id = g.project_id
 
-      -- Make sure this guide belongs to a project
-      -- assigned to this user
-      JOIN user_project_assignments upa
-        ON upa.project_id = g.project_id
-        AND upa.user_id = ?
+        JOIN user_project_assignments upa
+          ON upa.project_id = g.project_id
+          AND upa.user_id = ?
 
-      -- Only return currently active guides
-      WHERE g.status = 'active'
+        LEFT JOIN guide_acknowledgements ga
+          ON ga.guide_id = g.id
+          AND ga.user_id = ?
 
-      -- Latest created guide first
-      ORDER BY g.created_at DESC
+        WHERE g.status = 'active'
 
-      -- We only need the newest one
-      LIMIT 1
-      `,
-      [userId, userId]
-    );
+        ORDER BY g.created_at DESC
 
-    // --------------------------------------------------
-    // No guide found for this user
-    // --------------------------------------------------
+        LIMIT 1
+        `,
+        [userId, userId]
+      );
+    }
+
+    // ==================================================
+    // TEAM LEAD
+    // Gets latest guide from projects assigned to
+    // members belonging to the logged-in Team Lead.
+    // ==================================================
+
+    else if (role === "teamLead") {
+      [guides] = await db.query(
+        `
+        SELECT
+          g.id,
+          g.project_id,
+          g.title,
+          g.version,
+          g.description,
+          g.updated_date,
+          g.effective_date,
+          g.file_url,
+          g.status,
+          g.created_at,
+
+          p.project_name,
+
+          CASE
+            WHEN ga.id IS NULL THEN 0
+            ELSE 1
+          END AS acknowledged
+
+        FROM guides g
+
+        JOIN projects p
+          ON p.id = g.project_id
+
+        JOIN user_project_assignments upa
+          ON upa.project_id = g.project_id
+
+        JOIN team_members tm
+          ON tm.member_id = upa.user_id
+          AND tm.team_lead_id = ?
+
+        LEFT JOIN guide_acknowledgements ga
+          ON ga.guide_id = g.id
+          AND ga.user_id = ?
+
+        WHERE g.status = 'active'
+
+        GROUP BY
+          g.id,
+          g.project_id,
+          g.title,
+          g.version,
+          g.description,
+          g.updated_date,
+          g.effective_date,
+          g.file_url,
+          g.status,
+          g.created_at,
+          p.project_name,
+          ga.id
+
+        ORDER BY g.created_at DESC
+
+        LIMIT 1
+        `,
+        [userId, userId]
+      );
+    }
+
+    // ==================================================
+    // UNSUPPORTED ROLE
+    // ==================================================
+
+    else {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to access guides",
+      });
+    }
+
+    // ==================================================
+    // NO GUIDE FOUND
+    // ==================================================
 
     if (guides.length === 0) {
       return res.status(404).json({
@@ -81,16 +155,17 @@ const getLatestGuide = async (req, res) => {
       });
     }
 
-    // --------------------------------------------------
-    // Return latest guide and acknowledgement status
-    // --------------------------------------------------
+    // ==================================================
+    // SUCCESS
+    // ==================================================
 
     return res.status(200).json({
       success: true,
       guide: guides[0],
     });
+
   } catch (error) {
-    console.error("Get Guide Error:", error);
+    console.error("Get Latest Guide Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -100,94 +175,75 @@ const getLatestGuide = async (req, res) => {
   }
 };
 
+
 // ======================================================
-// PURPOSE:
-// Save acknowledgement when the logged-in Indexer clicks
-// "Acknowledge & continue" in the frontend popup.
+// ACKNOWLEDGE GUIDE
+// Works separately for each logged-in user.
+//
+// Priya acknowledging a guide does NOT automatically
+// acknowledge it for Rohan.
 // ======================================================
 
 const acknowledgeGuide = async (req, res) => {
   try {
-    // Logged-in user's ID from JWT
     const userId = req.user.id;
-
-    // Guide ID will come from URL.
-    //
-    // Example:
-    // POST /api/guides/1/acknowledge
-    //
-    // Here guideId will be 1.
     const guideId = req.params.id;
 
-    // --------------------------------------------------
-    // SECURITY CHECK:
-    //
-    // Make sure:
-    // 1. Guide exists.
-    // 2. Guide is active.
-    // 3. Guide belongs to a project assigned to this user.
-    // --------------------------------------------------
-
+    // Check whether guide exists and is active
     const [guides] = await db.query(
       `
-      SELECT
-        g.id
+      SELECT id
+      FROM guides
+      WHERE id = ?
+        AND status = 'active'
+      `,
+      [guideId]
+    );
 
-      FROM guides g
+    if (guides.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Guide not found",
+      });
+    }
 
-      JOIN user_project_assignments upa
-        ON upa.project_id = g.project_id
-
-      WHERE g.id = ?
-        AND upa.user_id = ?
-        AND g.status = 'active'
-
-      LIMIT 1
+    // Check whether this user already acknowledged it
+    const [existing] = await db.query(
+      `
+      SELECT id
+      FROM guide_acknowledgements
+      WHERE guide_id = ?
+        AND user_id = ?
       `,
       [guideId, userId]
     );
 
-    // User is trying to acknowledge a guide
-    // that is not assigned to them.
-    if (guides.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Guide not found or not assigned to you",
+    if (existing.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: "Guide already acknowledged",
       });
     }
 
-    // --------------------------------------------------
-    // Insert acknowledgement into MySQL.
-    //
-    // UNIQUE KEY on:
-    // guide_id + user_id
-    //
-    // prevents duplicate acknowledgement rows.
-    // --------------------------------------------------
-
+    // Save acknowledgement for this user
     await db.query(
       `
       INSERT INTO guide_acknowledgements
       (
         guide_id,
-        user_id
+        user_id,
+        acknowledged_at
       )
-      VALUES (?, ?)
-
-      ON DUPLICATE KEY UPDATE
-        acknowledged_at = acknowledged_at
+      VALUES (?, ?, NOW())
       `,
       [guideId, userId]
     );
-
-    // --------------------------------------------------
-    // Success response
-    // --------------------------------------------------
 
     return res.status(200).json({
       success: true,
       message: "Guide acknowledged successfully",
     });
+
   } catch (error) {
     console.error("Acknowledge Guide Error:", error);
 
@@ -199,13 +255,105 @@ const acknowledgeGuide = async (req, res) => {
   }
 };
 
+
+// Gets guide version history for an allowed project
+const getGuideHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role;
+    const projectId = req.params.projectId;
+
+    let accessRows = [];
+
+    // Checks project access for Indexer
+    if (role === "indexer") {
+      [accessRows] = await db.query(
+        `
+        SELECT id
+        FROM user_project_assignments
+        WHERE user_id = ?
+          AND project_id = ?
+        LIMIT 1
+        `,
+        [userId, projectId]
+      );
+    }
+
+    // Checks project access for Team Lead through team members
+    else if (role === "teamLead") {
+      [accessRows] = await db.query(
+        `
+        SELECT tm.id
+        FROM team_members tm
+
+        JOIN user_project_assignments upa
+          ON upa.user_id = tm.member_id
+
+        WHERE tm.team_lead_id = ?
+          AND upa.project_id = ?
+
+        LIMIT 1
+        `,
+        [userId, projectId]
+      );
+    }
+
+    if (accessRows.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to view this guide history",
+      });
+    }
+
+    const [history] = await db.query(
+      `
+      SELECT
+        g.id,
+        g.project_id,
+        g.title,
+        g.version,
+        g.description,
+        g.updated_date,
+        g.effective_date,
+        g.file_url,
+        g.status,
+        g.created_at,
+        p.project_name
+      FROM guides g
+
+      JOIN projects p
+        ON p.id = g.project_id
+
+      WHERE g.project_id = ?
+
+      ORDER BY g.created_at DESC
+      `,
+      [projectId]
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: history.length,
+      history,
+    });
+  } catch (error) {
+    console.error("Guide History Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to load guide history",
+      error: error.message,
+    });
+  }
+};
+
+
 // ======================================================
-// EXPORT FUNCTIONS
-//
-// These functions will be used inside guideRoutes.js
+// EXPORTS
 // ======================================================
 
 module.exports = {
   getLatestGuide,
   acknowledgeGuide,
+   getGuideHistory,
 };

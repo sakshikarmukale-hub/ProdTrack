@@ -25,6 +25,15 @@ const notificationRoutes = require("./src/commonRoutes/notificationRoutes");
 const profileRoutes = require("./src/commonRoutes/profileRoutes");
 // Imports report routes
 const reportRoutes = require("./src/commonRoutes/reportRoutes");
+// Imports Team Lead team routes
+const teamRoutes = require("./src/TeamleadRoutes/teamRoutes");
+//handle teamlead dashbaords 
+const teamLeadDashboardRoutes = require("./src/TeamleadRoutes/dashboardRoutes");
+//
+const teamLeadApprovalRoutes = require("./src/TeamleadRoutes/approvalRoutes");
+//Imports leave routes 
+const leaveRoutes = require("./src/commonRoutes/leaveRoutes");
+
 
 // ============================================
 // MIDDLEWARE
@@ -94,6 +103,14 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/reports", reportRoutes);
 // Handles dashboard APIs
 app.use("/api/dashboard", dashboardRoutes);
+// Handles Team Lead team APIs
+app.use("/api/team-lead", teamRoutes);
+// Handles Team Lead Dashboards APIs
+app.use( "/api/team-lead",teamLeadDashboardRoutes);
+// Handles team lead Approvals 
+app.use("/api/team-lead", teamLeadApprovalRoutes);
+// Handles leave request APIs
+app.use("/api/leave-requests", leaveRoutes);
 
 
 // ============================================

@@ -10,19 +10,19 @@ const {
 
 const router = express.Router();
 
-// Gets production summary for the logged-in Indexer
+// Gets personal report summary for Indexer or Team Lead
 router.get(
   "/my-summary",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   getMyReportSummary
 );
 
-// Gets daily production report for the logged-in Indexer
+// Gets personal daily production for Indexer or Team Lead
 router.get(
   "/my-daily-production",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   getMyDailyProduction
 );
 
