@@ -35,7 +35,7 @@ export const sidebarConfig = {
     { label: 'Guide Manager', icon: '📘', page: 'guide-manager' },
     { label: 'Corrections', icon: '✅', page: 'corrections', badge: { text: '6', color: 'error', dot: true } },
     { label: 'Compliance', icon: '🛡️', page: 'compliance' },
-    ...common.filter(item => item.page !== 'corrections' && item.page !== 'my-profile'),
+    ...common.filter(item => item.page !== 'corrections'),
   ],
 
   administrator: [

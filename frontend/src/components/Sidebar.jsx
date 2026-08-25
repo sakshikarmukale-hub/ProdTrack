@@ -141,34 +141,20 @@ export default function Sidebar({
   currentPage,
   onNavigate,
   onSignOut,
+  mobileOpen = false,
+  onMobileClose,
 }) {
-  // Get menu based on logged-in account
   const menuItems =
     sidebarConfig[roleKey] ||
     sidebarConfig.indexer;
 
-  return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
+  const handleNavigate = (page) => {
+    onNavigate(page);
+    if (onMobileClose) onMobileClose(); // auto-close on mobile after picking a page
+  };
 
-        "& .MuiDrawer-paper": {
-          width: DRAWER_WIDTH,
-
-          boxSizing: "border-box",
-
-          bgcolor: "#10253f",
-
-          border: "none",
-
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        },
-      }}
-    >
+  const drawerContent = (
+    <>
       {/* ==================================================
           LOGO
       ================================================== */}
@@ -353,6 +339,50 @@ export default function Sidebar({
           />
         </ListItemButton>
       </List>
-    </Drawer>
+    </>
+  );
+
+  return (
+    <>
+      {/* MOBILE / TABLET — slides in over content, closes on backdrop click */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onMobileClose}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            width: DRAWER_WIDTH,
+            boxSizing: "border-box",
+            bgcolor: "#10253f",
+            border: "none",
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+
+      {/* DESKTOP — always visible */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: { xs: "none", md: "block" },
+          width: DRAWER_WIDTH,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: DRAWER_WIDTH,
+            boxSizing: "border-box",
+            bgcolor: "#10253f",
+            border: "none",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+    </>
   );
 }

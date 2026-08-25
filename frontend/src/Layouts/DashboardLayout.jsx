@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useState } from "react";
 
 import Header from "../components/Header.jsx";
 import Sidebar from "../components/Sidebar.jsx";
@@ -10,6 +11,7 @@ export default function DashboardLayout({
   onLogout,
   children,
 }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -26,6 +28,8 @@ export default function DashboardLayout({
         currentPage={currentPage}
         onNavigate={onNavigate}
         onSignOut={onLogout}
+        mobileOpen={mobileOpen}
+        onMobileClose={() => setMobileOpen(false)}
       />
 
       {/* RIGHT SIDE */}
@@ -53,6 +57,7 @@ export default function DashboardLayout({
             role={user.role}
             onLogout={onLogout}
             onNotifications={() => onNavigate("notifications")}
+            onMenuClick={() => setMobileOpen(true)}
           />
         </Box>
 
