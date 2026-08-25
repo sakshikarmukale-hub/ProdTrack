@@ -27,7 +27,7 @@ const sections = [
   "6. Appendices",
 ];
 
-export default function IndexerIndexingGuide() {
+export default function TeamLeadIndexingGuide() {
   const [selected, setSelected] = useState(2);
 
   return (
@@ -57,7 +57,7 @@ export default function IndexerIndexingGuide() {
               mb: 0.7,
             }}
           >
-            ProdTrack · Indexer
+            ProdTrack · Team Lead
           </Typography>
 
           <Typography

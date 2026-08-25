@@ -9,7 +9,7 @@ import Chip from "@mui/material/Chip";
 
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 
-import sidebarConfig from "../config/sidebarConfig.js";
+import sidebarConfig from "../Config/sidebarConfig.js";
 
 export const DRAWER_WIDTH = 240;
 
@@ -163,8 +163,9 @@ export default function Sidebar({
 
           border: "none",
 
-          overflowX: "hidden",
-          overflowY: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
         },
       }}
     >
@@ -262,7 +263,14 @@ export default function Sidebar({
       <List
         sx={{
           py: 0,
-          flexShrink: 0,
+          flex: "1 1 auto",
+          minHeight: 0,
+          overflowY: "auto",
+          overflowX: "hidden",
+          scrollbarWidth: "thin",
+          scrollbarColor: "#526b8f transparent",
+          "&::-webkit-scrollbar": { width: 6 },
+          "&::-webkit-scrollbar-thumb": { backgroundColor: "#526b8f", borderRadius: 6 },
         }}
       >
         {menuItems.map((item) => (

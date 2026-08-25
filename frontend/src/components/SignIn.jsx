@@ -14,7 +14,7 @@ import Link from "@mui/material/Link";
 import {
   DEMO_ACCOUNTS,
   authenticateUser,
-} from "../config/users.js";
+} from "../Config/users.js";
 
 export default function SignIn({ onLogin }) {
   const [username, setUsername] = useState("");
