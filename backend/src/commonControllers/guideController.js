@@ -415,11 +415,17 @@ const downloadGuide = async (req, res) => {
       });
     }
 
-    const filePath = path.join(
-      __dirname,
-      "../../",
-      guides[0].file_url
-    );
+    // Builds the absolute guide file path
+const filePath = path.resolve(
+  process.cwd(),
+  guides[0].file_url
+);
+
+console.log("Downloading guide from:", filePath);
+
+// Downloads the guide PDF
+return res.download(filePath);
+
 
     return res.download(filePath);
   } catch (error) {
