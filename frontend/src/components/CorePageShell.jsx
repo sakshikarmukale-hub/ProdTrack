@@ -16,6 +16,7 @@ export function CoreTable({ columns, rows, actionLabel = 'Edit', onAction, onCel
   return <Paper elevation={0} sx={{ border: '1px solid #dbe3ec', borderRadius: 1.5, overflow: 'auto' }}><Table size="small" sx={{ minWidth: 680 }}><TableHead><TableRow sx={{ bgcolor: '#f8fafc' }}>{columns.map(column => <TableCell key={column} sx={{ fontWeight: 800, fontSize: 11, color: '#526581', py: 1.4 }}>{column}</TableCell>)}{actionLabel && <TableCell />}</TableRow></TableHead><TableBody>{rows.map((row, rowIndex) => <TableRow key={row[0]} hover>{row.map((cell, cellIndex) => <TableCell key={`${row[0]}-${cellIndex}`} align={cell === '●' || cell === '○' ? 'center' : 'left'}>{cell === '●' || cell === '○' ? <Box component="button" type="button" aria-label={cell === '●' ? 'Revoke project access' : 'Grant project access'} onClick={() => onCellAction?.(rowIndex, cellIndex)} sx={{ width: 10, height: 10, p: 0, minWidth: 10, borderRadius: '50%', border: cell === '●' ? '1px solid #15966a' : '1px solid #cbd5e1', bgcolor: cell === '●' ? '#15966a' : 'transparent', cursor: onCellAction ? 'pointer' : 'default', '&:hover': onCellAction ? { transform: 'scale(1.25)' } : {} }} /> : cellIndex === row.length - 1 && ['Active', 'ACTIVE', 'Pending', 'PENDING', 'INACTIVE'].includes(cell) ? <Chip size="small" label={cell} color={cell.toLowerCase() === 'active' ? 'success' : cell.toLowerCase() === 'pending' ? 'warning' : 'default'} sx={{ fontSize: 10, fontWeight: 800 }} /> : cell}</TableCell>)}{actionLabel && <TableCell><Button size="small" variant={actionVariant} onClick={() => onAction?.(row, rowIndex)} sx={actionVariant === 'text' ? { color: '#10233d', minWidth: 0, px: 0, fontSize: 12 } : {}}>{actionLabel}</Button></TableCell>}</TableRow>)}</TableBody></Table></Paper>;
 }
 
+
 export default function CorePageShell({ title, description, actionLabel, actionIcon, actionHandler, headerExtra, children, breadcrumb = 'Core Team' }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [notice, setNotice] = useState('');
@@ -23,7 +24,7 @@ export default function CorePageShell({ title, description, actionLabel, actionI
   const closeAction = () => setDialogOpen(false);
   const completeAction = () => { setDialogOpen(false); setNotice(`${actionLabel || 'Action'} completed`); };
 
-  return <Box sx={{ maxWidth: 1100 }}>
+  return <Box sx={{ width: '100%' }}>
     <Typography sx={{ color: '#667085', fontSize: 12 }}>ProdTrack · {breadcrumb}</Typography>
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 2, mb: 2, mt: .7, '@media (max-width: 600px)': { flexDirection: 'column' } }}><Box><Typography sx={{ fontSize: 24, fontWeight: 800 }}>{title}</Typography><Typography sx={{ color: '#667085', fontSize: 13, mt: .4 }}>{description}</Typography></Box><Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'flex-end' }}>{headerExtra}{actionLabel && <Button variant="contained" startIcon={actionIcon === null ? undefined : actionIcon || <AddRoundedIcon />} onClick={actionHandler || openAction}>{actionLabel}</Button>}</Box></Box>
     {children}

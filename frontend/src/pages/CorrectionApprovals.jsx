@@ -14,7 +14,7 @@ export default function CorrectionApprovals() {
 	const [rows, setRows] = useState(initialRows);
 	const updateStatus = (index, status) => setRows(current => current.map((row, rowIndex) => rowIndex === index ? { ...row, status } : row));
 
-	return <Box sx={{ maxWidth: 1100 }}>
+	return <Box sx={{ width: '100%' }}>
 		<Typography sx={{ color: '#667085', fontSize: 12 }}>ProdTrack · Team Lead</Typography>
 		<Typography sx={{ fontSize: 24, fontWeight: 800, mt: .7 }}>Corrections</Typography>
 		<Typography sx={{ color: '#667085', fontSize: 13, mt: .4 }}>Review and approve correction requests raised on locked entries.</Typography>

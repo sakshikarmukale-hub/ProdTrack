@@ -19,6 +19,7 @@ export default function Header({
   onLogout,
   onNotifications,
   onHelp,
+  onMenuClick,
 }) {
   const initials = userName
     .split(" ")
@@ -53,32 +54,27 @@ export default function Header({
       >
         {/* ================= LEFT ================= */}
 
-        <Box
-          sx={{
-            pl: 0.5,
-          }}
-        >
-          <Typography
+        <Box sx={{ pl: 0.5, display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton
+            onClick={onMenuClick}
             sx={{
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 16,
-              lineHeight: 1.15,
+              display: { xs: "flex", md: "none" },
+              color: "#e2e8f0",
+              mr: 0.5,
             }}
           >
-            Welcome, {userName}
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#94a3b8",
-              fontSize: 12,
-              lineHeight: 1.2,
-              mt: 0.2,
-            }}
-          >
-            {role}
-          </Typography>
+            <Box component="svg" viewBox="0 0 24 24" sx={{ width: 22, height: 22, fill: "none" }}>
+              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </Box>
+          </IconButton>
+          <Box>
+            <Typography sx={{ color: "#fff", fontWeight: 700, fontSize: 16, lineHeight: 1.15 }}>
+              Welcome, {userName}
+            </Typography>
+            <Typography sx={{ color: "#94a3b8", fontSize: 12, lineHeight: 1.2, mt: 0.2 }}>
+              {role}
+            </Typography>
+          </Box>
         </Box>
 
         {/* ================= RIGHT ================= */}
@@ -87,18 +83,18 @@ export default function Header({
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 1.2,
-            pr: 2.5,
+            gap: { xs: 0.6, sm: 1.2 },
+            pr: { xs: 1, sm: 2.5 },
           }}
         >
-          {/* SEARCH */}
+          {/* SEARCH — hidden below md */}
 
           <Box
             sx={{
-              width: 294,
+              display: { xs: "none", md: "flex" },
+              width: { md: 200, lg: 294 },
               height: 40,
 
-              display: "flex",
               alignItems: "center",
 
               bgcolor: "#24364f",
@@ -141,6 +137,21 @@ export default function Header({
             />
           </Box>
 
+          {/* SEARCH ICON ONLY — shown below md */}
+
+          <IconButton
+            sx={{
+              display: { xs: "flex", md: "none" },
+              width: 42,
+              height: 42,
+              bgcolor: "#1e3149",
+              borderRadius: "9px",
+              "&:hover": { bgcolor: "#293d57" },
+            }}
+          >
+            <SearchIcon sx={{ color: "#94a3b8", fontSize: 19 }} />
+          </IconButton>
+
           {/* NOTIFICATIONS */}
 
           <IconButton
@@ -179,11 +190,12 @@ export default function Header({
             </Badge>
           </IconButton>
 
-          {/* HELP */}
+          {/* HELP — hidden on xs */}
 
           <IconButton
             onClick={onHelp}
             sx={{
+              display: { xs: "none", sm: "flex" },
               width: 42,
               height: 42,
 
@@ -228,7 +240,7 @@ export default function Header({
             sx={{
               height: 40,
 
-              px: 1.8,
+              px: { xs: 1, sm: 1.8 },
 
               minWidth: "auto",
 
@@ -252,7 +264,8 @@ export default function Header({
               },
             }}
           >
-            Logout
+            <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>Logout</Box>
+            <Box component="span" sx={{ display: { xs: "inline", sm: "none" } }}>⏻</Box>
           </Button>
         </Box>
       </Toolbar>

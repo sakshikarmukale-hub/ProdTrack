@@ -5,25 +5,32 @@ import Link from "@mui/material/Link";
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
+// Font family — matches body { font-family: "Inter", ... } in reference
+const FONT =
+  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
 export default function AcknowledgementBanner({
   title,
   message,
   onReview,
 }) {
   return (
+    // .notice-strip { background: linear-gradient(90deg,#132338,#1b3050);
+    //   color:#dce6f7; border-radius:10px; padding:12px 16px;
+    //   font-size:13px; display:flex; gap:10px; align-items:center }
     <Box
       sx={{
-        bgcolor: "navy.main",
-        borderRadius: 3,
-        px: 2.5,
-        py: 2,
-        mb: 3,
+        background: "linear-gradient(90deg, #132338, #1b3050)",
+        borderRadius: "10px",
+        px: 2,
+        py: 1.5,
+        mb: 2.5,
 
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
 
-        gap: 2,
+        gap: 1.25,
       }}
     >
       {/* LEFT SIDE */}
@@ -32,22 +39,24 @@ export default function AcknowledgementBanner({
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: 1.5,
+          gap: 1.25,
           flexWrap: "wrap",
         }}
       >
         <CampaignRoundedIcon
           sx={{
-            color: "error.main",
-            fontSize: 20,
+            color: "#d64545",   // --red
+            fontSize: 18,
           }}
         />
 
+        {/* .notice-strip { font-size:13px } — title portion bold */}
         <Typography
           sx={{
-            color: "#fff",
-            fontWeight: 600,
-            fontSize: 14,
+            fontFamily: FONT,
+            color: "#dce6f7",
+            fontWeight: 700,
+            fontSize: 13,
           }}
         >
           {title}
@@ -55,15 +64,16 @@ export default function AcknowledgementBanner({
 
         <Typography
           sx={{
-            color: "grey.500",
-            fontSize: 14,
+            fontFamily: FONT,
+            color: "#93a4c2",
+            fontSize: 13,
           }}
         >
           {message}
         </Typography>
       </Box>
 
-      {/* REVIEW BUTTON */}
+      {/* REVIEW BUTTON — .notice-strip a { color:#7fb0ff; font-weight:700 } */}
 
       <Link
         component="button"
@@ -71,9 +81,10 @@ export default function AcknowledgementBanner({
         onClick={onReview}
         underline="none"
         sx={{
-          color: "#60a5fa",
-          fontWeight: 600,
-          fontSize: 14,
+          fontFamily: FONT,
+          color: "#7fb0ff",
+          fontWeight: 700,
+          fontSize: 13,
 
           display: "flex",
           alignItems: "center",
@@ -84,19 +95,16 @@ export default function AcknowledgementBanner({
           border: 0,
           bgcolor: "transparent",
           cursor: "pointer",
+          ml: "auto",
 
           "&:hover": {
-            color: "#93c5fd",
+            color: "#a8c8ff",
           },
         }}
       >
-        Review now
+        Review now →
 
-        <ArrowForwardRoundedIcon
-          sx={{
-            fontSize: 16,
-          }}
-        />
+        <ArrowForwardRoundedIcon sx={{ fontSize: 15 }} />
       </Link>
     </Box>
   );
