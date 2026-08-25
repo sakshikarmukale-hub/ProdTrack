@@ -144,9 +144,13 @@ export default function Sidebar({
   mobileOpen = false,
   onMobileClose,
 }) {
-  const menuItems =
+  const configuredItems =
     sidebarConfig[roleKey] ||
     sidebarConfig.indexer;
+  const menuItems = configuredItems.filter(
+    (item, index, items) =>
+      items.findIndex((candidate) => candidate.page === item.page) === index,
+  );
 
   const handleNavigate = (page) => {
     onNavigate(page);
