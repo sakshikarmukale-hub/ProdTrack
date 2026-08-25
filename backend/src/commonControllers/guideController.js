@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const path = require("path");
 
 // ======================================================
 // GET LATEST ACTIVE GUIDE
@@ -347,7 +348,90 @@ const getGuideHistory = async (req, res) => {
   }
 };
 
+// Downloads a guide file if the logged-in user has access
+const downloadGuide = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role;
+    const guideId = req.params.id;
 
+    let guides = [];
+
+    if (role === "indexer") {
+      [guides] = await db.query(
+        `
+        SELECT
+          g.id,
+          g.file_url
+        FROM guides g
+
+        JOIN user_project_assignments upa
+          ON upa.project_id = g.project_id
+
+        WHERE g.id = ?
+          AND upa.user_id = ?
+
+        LIMIT 1
+        `,
+        [guideId, userId]
+      );
+    }
+
+    else if (role === "teamLead") {
+      [guides] = await db.query(
+        `
+        SELECT
+          g.id,
+          g.file_url
+
+        FROM guides g
+
+        JOIN user_project_assignments upa
+          ON upa.project_id = g.project_id
+
+        JOIN team_members tm
+          ON tm.member_id = upa.user_id
+
+        WHERE g.id = ?
+          AND tm.team_lead_id = ?
+
+        LIMIT 1
+        `,
+        [guideId, userId]
+      );
+    }
+
+    if (guides.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to download this guide",
+      });
+    }
+
+    if (!guides[0].file_url) {
+      return res.status(404).json({
+        success: false,
+        message: "Guide file is not available",
+      });
+    }
+
+    const filePath = path.join(
+      __dirname,
+      "../../",
+      guides[0].file_url
+    );
+
+    return res.download(filePath);
+  } catch (error) {
+    console.error("Guide Download Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to download guide",
+      error: error.message,
+    });
+  }
+};
 // ======================================================
 // EXPORTS
 // ======================================================
@@ -356,4 +440,5 @@ module.exports = {
   getLatestGuide,
   acknowledgeGuide,
    getGuideHistory,
+    downloadGuide,
 };

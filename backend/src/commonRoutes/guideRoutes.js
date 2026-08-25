@@ -7,6 +7,7 @@ const {
   getLatestGuide,
   acknowledgeGuide,
   getGuideHistory,
+   downloadGuide,
 } = require("../commonControllers/guideController");
 
 const router = express.Router();
@@ -33,6 +34,14 @@ router.get(
   authenticate,
   allowRoles("indexer", "teamLead"),
   getGuideHistory
+);
+// Downloads a guide file
+router.get(
+  "/:id/download",
+  authenticate,
+  downloadGuide,
+  allowRoles("indexer", "teamLead"),
+  
 );
 
 module.exports = router;
