@@ -35,28 +35,26 @@ export default function GuideUpdateModal({ open, onClose }) {
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
-      maxWidth={false}
-      PaperProps={{
-        sx: {
-          // Only width changed to make card more square
-          width: 450,
-          maxWidth: "calc(90vw - 30px)",
-
-          borderRadius: "16px",
-          overflow: "hidden",
-
-          boxShadow: "0 24px 70px rgba(15, 23, 42, 0.35)",
-        },
-      }}
-      BackdropProps={{
-        sx: {
-          backgroundColor: "rgba(15, 23, 42, 0.58)",
-          backdropFilter: "blur(5px)",
-        },
-      }}
-    >
+  open={open}
+  onClose={handleClose}
+  maxWidth={false}
+  PaperProps={{
+    style: {
+      width: "280px",
+      maxWidth: "280px",
+      minWidth: "280px",
+      borderRadius: "16px",
+      overflow: "hidden",
+      boxShadow: "0 24px 70px rgba(15, 23, 42, 0.35)",
+    },
+  }}
+  BackdropProps={{
+    sx: {
+      backgroundColor: "rgba(15, 23, 42, 0.58)",
+      backdropFilter: "blur(5px)",
+    },
+  }}
+>
       {/* HEADER */}
 
       <DialogTitle
@@ -64,10 +62,11 @@ export default function GuideUpdateModal({ open, onClose }) {
           px: 2.75,
           py: 2.2,
 
+          fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
           fontSize: 16,
           fontWeight: 700,
 
-          color: "#17233a",
+          color: "#1A2434",
 
           display: "flex",
           alignItems: "center",
@@ -80,7 +79,7 @@ export default function GuideUpdateModal({ open, onClose }) {
           onClick={handleClose}
           size="small"
           sx={{
-            color: "#64748b",
+            color: "#6A7585",
           }}
         >
           <CloseRoundedIcon fontSize="small" />
@@ -138,12 +137,13 @@ export default function GuideUpdateModal({ open, onClose }) {
           <Box>
             <Typography
               sx={{
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: 700,
+                fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
 
-                color: "#17233a",
+                color: "#1A2434",
 
-                lineHeight: 1.3,
+                lineHeight: 1.5,
               }}
             >
               ABC Medical Imaging — Indexing Guide
@@ -153,9 +153,10 @@ export default function GuideUpdateModal({ open, onClose }) {
               sx={{
                 mt: 0.5,
 
-                fontSize: 14,
+                fontSize: 12.5,
+                fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
 
-                color: "#718096",
+                color: "#6A7585",
               }}
             >
               Version 2.3 · Updated 16 May 2025 · Effective 17 May 2025
@@ -192,9 +193,9 @@ export default function GuideUpdateModal({ open, onClose }) {
           sx={{
             fontSize: 13,
 
-            lineHeight: 1.6,
-
-            color: "#718096",
+            lineHeight: 1.5,
+            fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+            color: "#6A7585",
 
             mb: 1.5,
           }}
@@ -234,8 +235,9 @@ export default function GuideUpdateModal({ open, onClose }) {
             label={
               <Typography
                 sx={{
-                  fontSize: 12,
-                  color: "#344054",
+                  fontSize: 13,
+                  color: "#1A2434",
+                  fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
                 }}
               >
                 I have read and understood the updated indexing guide (v2.3).
@@ -275,13 +277,17 @@ export default function GuideUpdateModal({ open, onClose }) {
 
             textTransform: "none",
 
+            fontSize:"13px",
             fontWeight: 600,
+            fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
 
-            color: "#344054",
-
-            borderColor: "#d7dee8",
+            color: "#33415A",
 
             backgroundColor: "#fff",
+             border: "1px solid #eaf0f8",
+  "&:hover": {
+    borderColor: "#d7dee8",
+  },
           }}
         >
           Later
@@ -302,10 +308,12 @@ export default function GuideUpdateModal({ open, onClose }) {
 
             textTransform: "none",
 
+             fontFamily:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+             fontSize:"13px",
             fontWeight: 700,
 
             // BLUE
-            backgroundColor: "#2f6df6",
+            backgroundColor: "#2f6df0",
             color: "#ffffff",
 
             boxShadow: "none",

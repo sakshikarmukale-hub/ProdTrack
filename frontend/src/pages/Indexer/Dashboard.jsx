@@ -20,6 +20,10 @@ import PendingAcknowledgements from "./PendingAcknowledgements.jsx";
 import MyProjects from "./MyProjects.jsx";
 import KeyHighlights from "./KeyHighlights.jsx";
 
+// Font family — "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+const FONT =
+  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
 // =========================================================
 // DASHBOARD DATA
 // =========================================================
@@ -29,38 +33,38 @@ const stats = [
     label: "Total Received",
     value: "1,250",
     icon: <MoveToInboxRoundedIcon />,
-    iconBg: "#e5efff",
-    iconColor: "#2563eb",
+    iconBg: "#e5eefe",
+    iconColor: "#2f6df0",
   },
 
   {
     label: "Total Completed",
     value: "980",
     icon: <CheckCircleRoundedIcon />,
-    iconBg: "#e2f6ec",
-    iconColor: "#22a06b",
+    iconBg: "#e4f6ee",
+    iconColor: "#1f9d6b",
     trend: "▲ 6.4% vs last week",
-    trendColor: "#15966a",
+    trendColor: "#1f9d6b",
   },
 
   {
     label: "Total Pending",
     value: "270",
     icon: <AccessTimeRoundedIcon />,
-    iconBg: "#fff3dc",
-    iconColor: "#d97706",
+    iconBg: "#fbf1dc",
+    iconColor: "#d9962b",
     trend: "▲ 12 today",
-    trendColor: "#ef4444",
+    trendColor: "#d64545",
   },
 
   {
     label: "Today's Productivity",
     value: "45",
     icon: <BoltRoundedIcon />,
-    iconBg: "#f0e9ff",
-    iconColor: "#7c3aed",
+    iconBg: "#efe9fb",
+    iconColor: "#7a51d6",
     trend: "▲ on target",
-    trendColor: "#15966a",
+    trendColor: "#1f9d6b",
   },
 ];
 
@@ -88,7 +92,7 @@ const announcements = [
       <BuildRoundedIcon
         sx={{
           fontSize: 15,
-          color: "text.secondary",
+          color: "#6a7585",
         }}
       />
     ),
@@ -103,7 +107,7 @@ const announcements = [
       <FiberManualRecordRoundedIcon
         sx={{
           fontSize: 12,
-          color: "success.main",
+          color: "#1f9d6b",
         }}
       />
     ),
@@ -146,12 +150,13 @@ export default function IndexerDashboard({ onNavigate }) {
         boxSizing: "border-box",
       }}
     >
-      {/* BREADCRUMB */}
+      {/* BREADCRUMB — .page-head .crumb { font-size:12.5px; color:var(--muted):#6a7585 } */}
 
       <Typography
         sx={{
-          color: "text.secondary",
-          fontSize: 12,
+          fontFamily: FONT,
+          fontSize: 12.5,
+          color: "#6a7585",
           mb: 0.5,
         }}
       >
@@ -169,37 +174,53 @@ export default function IndexerDashboard({ onNavigate }) {
           mb: 0.5,
         }}
       >
+        {/* .page-head h1 { font-size:22px; font-weight:800; letter-spacing:-.4px } */}
         <Typography
           sx={{
-            fontWeight: 700,
-            fontSize: 24,
-            color: "text.primary",
+            fontFamily: FONT,
+            fontWeight: 800,
+            fontSize: 22,
+            letterSpacing: "-0.4px",
+            color: "#1a2434",
           }}
         >
           Dashboard
         </Typography>
 
+        {/* .btn.blue { font-size:13px; font-weight:600 (btn base); border-radius:8px } */}
         <Button
           variant="contained"
           startIcon={<AddRoundedIcon />}
           onClick={() => onNavigate("daily-entry")}
           sx={{
-            px: 2,
-            py: 1.25,
-            borderRadius: 2,
+            fontFamily: FONT,
+            fontSize: 13,
+            fontWeight: 600,
+            px: 1.75,
+            py: 1.125,
+            borderRadius: "8px",
+            textTransform: "none",
             whiteSpace: "nowrap",
+            backgroundColor: "#2f6df0",
+            color: "#fff",
+            boxShadow: "none",
+            "&:hover": {
+              backgroundColor: "#1f57c9",
+              boxShadow: "none",
+            },
           }}
         >
           New daily entry
         </Button>
       </Box>
 
-      {/* DESCRIPTION */}
+      {/* DESCRIPTION — .page-head .desc { font-size:13.5px; color:var(--muted):#6a7585 } */}
 
       <Typography
         sx={{
-          color: "text.secondary",
-          fontSize: 14,
+          fontFamily: FONT,
+          fontSize: 13.5,
+          color: "#6a7585",
           mb: 2.5,
         }}
       >
@@ -224,9 +245,9 @@ export default function IndexerDashboard({ onNavigate }) {
 
       <Grid
         container
-        spacing={2.5}
+        spacing={2}
         sx={{
-          mb: 2.5,
+          mb: 2,
           width: "100%",
         }}
       >
@@ -239,11 +260,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <ProjectUpdates
               updates={projectUpdates}
               unreadCount={2}
@@ -260,11 +277,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <Announcements announcements={announcements} />
           </Box>
         </Grid>
@@ -276,9 +289,9 @@ export default function IndexerDashboard({ onNavigate }) {
 
       <Grid
         container
-        spacing={2.5}
+        spacing={2}
         sx={{
-          mb: 2.5,
+          mb: 2,
           width: "100%",
         }}
       >
@@ -291,11 +304,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <IndexingGuide
               guide={latestGuide}
               onViewGuide={() => onNavigate("indexing-guide")}
@@ -312,11 +321,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <PendingAcknowledgements
               items={pendingAcknowledgements}
             />
@@ -330,7 +335,7 @@ export default function IndexerDashboard({ onNavigate }) {
 
       <Grid
         container
-        spacing={2.5}
+        spacing={2}
         sx={{
           width: "100%",
         }}
@@ -344,11 +349,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <MyProjects />
           </Box>
         </Grid>
@@ -362,11 +363,7 @@ export default function IndexerDashboard({ onNavigate }) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
+          <Box sx={{ width: "100%" }}>
             <KeyHighlights />
           </Box>
         </Grid>

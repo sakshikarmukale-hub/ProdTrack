@@ -3,6 +3,10 @@ import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
+// Font family — matches body { font-family: "Inter", ... } in reference
+const FONT =
+  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
 function StatCard({
   icon,
   iconBg,
@@ -19,32 +23,35 @@ function StatCard({
         width: "100%",
         height: 118,
         boxSizing: "border-box",
-        px: 2.5,
+        px: 2,
         py: 2,
-        borderRadius: "14px",
+        borderRadius: "12px",               // --radius: 12px
 
         display: "flex",
         alignItems: "center",
-        gap: 2,
+        gap: 1.625,                          // matches .kpi { gap:13px }
 
-        backgroundColor: "#ffffff",
-        border: "1px solid #dbe3ec",
+        backgroundColor: "#ffffff",          // --card
+        border: "1px solid #dfe4ec",         // --line
 
-        boxShadow: "0 3px 10px rgba(15, 23, 42, 0.06)",
+        // .kpi { box-shadow: var(--shadow) }
+        boxShadow:
+          "0 1px 2px rgba(16,30,54,.06), 0 4px 16px rgba(16,30,54,.05)",
 
         "&:hover": {
-          boxShadow: "0 5px 14px rgba(15, 23, 42, 0.09)",
+          boxShadow:
+            "0 2px 4px rgba(16,30,54,.08), 0 6px 20px rgba(16,30,54,.08)",
         },
       }}
     >
-      {/* ICON */}
+      {/* ICON — .kpi .kic { width:46px; height:46px; border-radius:11px } */}
 
       <Box
         sx={{
-          width: 54,
-          height: 54,
-          minWidth: 54,
-          borderRadius: "12px",
+          width: 46,
+          height: 46,
+          minWidth: 46,
+          borderRadius: "11px",
 
           backgroundColor: iconBg,
 
@@ -56,7 +63,7 @@ function StatCard({
           flexShrink: 0,
 
           "& svg": {
-            fontSize: 27,
+            fontSize: 20,   // .kpi .kic { font-size:20px }
           },
         }}
       >
@@ -73,40 +80,46 @@ function StatCard({
           minWidth: 0,
         }}
       >
+        {/* .kpi .kt { font-size:12.5px; color:var(--muted):#6a7585; font-weight:600 } */}
         <Typography
           sx={{
-            color: "#64748b",
-            fontSize: 14,
-            fontWeight: 400,
+            fontFamily: FONT,
+            color: "#6a7585",
+            fontSize: 12.5,
+            fontWeight: 600,
             lineHeight: 1.2,
-            mb: 0.5,
+            mb: 0.25,
             whiteSpace: "nowrap",
           }}
         >
           {label}
         </Typography>
 
+        {/* .kpi .kv { font-size:26px; font-weight:800; letter-spacing:-.6px; line-height:1.05 } */}
         <Typography
           sx={{
-            color: "#0f172a",
-            fontSize: 30,
+            fontFamily: FONT,
+            color: "#1a2434",
+            fontSize: 26,
             fontWeight: 800,
-            lineHeight: 1,
-            letterSpacing: "-0.5px",
+            lineHeight: 1.05,
+            letterSpacing: "-0.6px",
             whiteSpace: "nowrap",
           }}
         >
           {value}
         </Typography>
 
+        {/* .kpi .kd { font-size:11.5px; font-weight:600; margin-top:3px } */}
         {trend && (
           <Typography
             sx={{
+              fontFamily: FONT,
               color: trendColor,
-              fontSize: 12,
+              fontSize: 11.5,
               fontWeight: 600,
               lineHeight: 1.2,
-              mt: 0.7,
+              mt: "3px",
               whiteSpace: "nowrap",
             }}
           >
@@ -122,9 +135,9 @@ export default function StatCards({ stats = [] }) {
   return (
     <Grid
       container
-      spacing={2.5}
+      spacing={2}
       sx={{
-        mb: 2.5,
+        mb: 2,
         width: "100%",
       }}
     >
