@@ -28,7 +28,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   getLatestGuide,
   acknowledgeGuide,
-} = require("../IndexerControllers/guideController");
+} = require("../commonControllers/guideController");
 
 const router = express.Router();
 
@@ -70,7 +70,7 @@ router.get(
   authenticate,
 
   // Only Indexer can access this particular endpoint
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
 
   // Run controller
   getLatestGuide
@@ -101,7 +101,7 @@ router.post(
   authenticate,
 
   // Indexer only
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
 
   // Save acknowledgement
   acknowledgeGuide

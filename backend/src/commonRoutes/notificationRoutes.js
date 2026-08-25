@@ -7,7 +7,7 @@ const {
   getMyNotifications,
   markAsRead,
   markAllAsRead,
-} = require("../IndexerControllers/notificationController");
+} = require("../commonControllers/notificationController");
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const router = express.Router();
 router.get(
   "/my",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   getMyNotifications
 );
 
@@ -23,7 +23,7 @@ router.get(
 router.patch(
   "/read-all",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   markAllAsRead
 );
 
@@ -31,7 +31,7 @@ router.patch(
 router.patch(
   "/:id/read",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   markAsRead
 );
 

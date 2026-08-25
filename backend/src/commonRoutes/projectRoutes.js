@@ -5,7 +5,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 
 const {
   getMyProjects,
-} = require("../IndexerControllers/projectController");
+} = require("../commonControllers/projectController");
 
 const router = express.Router();
 

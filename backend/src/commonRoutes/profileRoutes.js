@@ -4,7 +4,7 @@ const authenticate = require("../middleware/authMiddleware");
 
 const {
   getMyProfile,
-} = require("../IndexerControllers/profileController");
+} = require("../commonControllers/profileController");
 
 const router = express.Router();
 
