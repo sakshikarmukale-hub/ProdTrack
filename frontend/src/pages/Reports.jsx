@@ -57,7 +57,7 @@ function SelectField({ label, children }) {
     <Box>
       <Typography
         sx={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
           color: "#52647d",
           mb: 0.5,
@@ -71,7 +71,7 @@ function SelectField({ label, children }) {
           defaultValue={children[0]?.props?.value}
           sx={{
             height: 34,
-            fontSize: 12,
+            fontSize: 13,
             backgroundColor: "#fff",
             borderRadius: "7px",
           }}
@@ -118,7 +118,7 @@ export default function Reports({
           <Typography
             sx={{
               color: "#6b7b91",
-              fontSize: 12,
+              fontSize: 13,
               mb: 0.4,
             }}
           >
@@ -127,7 +127,7 @@ export default function Reports({
 
           <Typography
             sx={{
-              fontSize: 23,
+              fontSize: 24,
               fontWeight: 800,
               color: "#17233a",
             }}
@@ -139,7 +139,7 @@ export default function Reports({
             sx={{
               mt: 0.4,
               color: "#718096",
-              fontSize: 12,
+              fontSize: 13,
             }}
           >
             Daily, weekly, monthly and audit reports. Filter by project,
@@ -171,7 +171,7 @@ export default function Reports({
 
               backgroundColor: "#fff",
 
-              fontSize: 12,
+              fontSize: 13,
 
               "&:hover": {
                 borderColor: "#2f6df6",
@@ -194,7 +194,7 @@ export default function Reports({
 
               boxShadow: "none",
 
-              fontSize: 12,
+              fontSize: 13,
 
               fontWeight: 700,
 
@@ -358,7 +358,7 @@ export default function Reports({
           >
             <Typography
               sx={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 800,
                 color: "#17233a",
               }}
@@ -408,7 +408,7 @@ export default function Reports({
 
                 <Typography
                   sx={{
-                    fontSize: 9,
+                    fontSize: 11,
 
                     fontWeight: 700,
 
@@ -444,7 +444,7 @@ export default function Reports({
 
                 <Typography
                   sx={{
-                    fontSize: 9,
+                    fontSize: 11,
 
                     color: "#61718a",
 
@@ -487,7 +487,7 @@ export default function Reports({
           >
             <Typography
               sx={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 800,
                 color: "#17233a",
               }}
@@ -552,7 +552,7 @@ export default function Reports({
               >
                 <Typography
                   sx={{
-                    fontSize: 18,
+                    fontSize: 20,
 
                     fontWeight: 800,
 
@@ -564,7 +564,7 @@ export default function Reports({
 
                 <Typography
                   sx={{
-                    fontSize: 8,
+                    fontSize: 11,
 
                     color: "#718096",
                   }}
@@ -618,7 +618,7 @@ export default function Reports({
 
                   <Typography
                     sx={{
-                      fontSize: 9,
+                      fontSize: 11,
 
                       color: "#52647d",
                     }}
@@ -662,7 +662,7 @@ export default function Reports({
         >
           <Typography
             sx={{
-              fontSize: 12,
+              fontSize: 14,
 
               fontWeight: 800,
 
@@ -700,7 +700,7 @@ export default function Reports({
             <Typography
               key={header}
               sx={{
-                fontSize: 9,
+                fontSize: 12,
 
                 color: "#64748b",
 
@@ -763,7 +763,7 @@ export default function Reports({
 
               <Typography
                 sx={{
-                  fontSize: 10,
+                  fontSize: 13,
 
                   color: "#243b5a",
                 }}
@@ -776,7 +776,7 @@ export default function Reports({
 
             <Typography
               sx={{
-                fontSize: 10,
+                fontSize: 13,
                 color: "#243b5a",
               }}
             >
@@ -787,7 +787,7 @@ export default function Reports({
 
             <Typography
               sx={{
-                fontSize: 10,
+                fontSize: 13,
               }}
             >
               {employee[3]}
@@ -797,7 +797,7 @@ export default function Reports({
 
             <Typography
               sx={{
-                fontSize: 10,
+                fontSize: 13,
               }}
             >
               {employee[4]}
@@ -807,7 +807,7 @@ export default function Reports({
 
             <Typography
               sx={{
-                fontSize: 10,
+                fontSize: 13,
               }}
             >
               {employee[5]}
@@ -831,7 +831,7 @@ export default function Reports({
                 border:
                   "1px solid #b9e5d1",
 
-                fontSize: 9,
+                fontSize: 11,
 
                 fontWeight: 700,
               }}
