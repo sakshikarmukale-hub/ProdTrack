@@ -19,7 +19,7 @@ function TrendChart() {
 }
 
 export default function Dashboard({ onNavigate }) {
-  return <CorePageShell title="Core team dashboard" description="Organisation-wide production, backlogs and compliance across all projects." actionLabel="Open analytics" actionHandler={() => onNavigate('analytics-kpis')}>
+  return <CorePageShell title="Core team dashboard" description="Organisation-wide production, backlogs and compliance across all projects." actionLabel="Open analytics" actionHandler={() => onNavigate('analytics-kpis')} headerExtra={<Button variant="outlined" sx={{ borderColor: '#d0d7e2', color: '#10233d' }}>Export</Button>}>
     <CoreMetricCards items={[['Total Received', '12,480'], ['Total Completed', '9,860', '▲ 4.1% MoM'], ['Project Backlog', '2,620', '▲ 3.6%'], ['Active employees', '42', '6 projects']]}/>
     <Box sx={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 2, '@media (max-width: 800px)': { gridTemplateColumns: '1fr' } }}>
       <SectionCard title="Monthly production trend" action={<Button size="small" onClick={() => onNavigate('analytics-kpis')}>Analytics</Button>}><TrendChart /></SectionCard>

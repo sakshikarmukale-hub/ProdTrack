@@ -9,7 +9,7 @@ const notifications = [
 ];
 
 export default function Notifications() {
-	return <Box sx={{ maxWidth: 1100 }}>
+	return <Box sx={{ width: '100%' }}>
 		<Typography sx={{ color: '#667085', fontSize: 12 }}>ProdTrack · Core Team</Typography>
 		<Typography sx={{ fontSize: 24, fontWeight: 800, mt: .7 }}>Notifications</Typography>
 		<Typography sx={{ color: '#667085', fontSize: 13, mt: .4, mb: 2 }}>Email and system alerts. Reminders for entries, corrections and guide updates.</Typography>
