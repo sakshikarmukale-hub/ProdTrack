@@ -12,7 +12,7 @@ const dashboardRoutes = require("./src/IndexerRoutes/dashboardRoutes");
 // Imports Project routes 
 const projectRoutes = require("./src/IndexerRoutes/projectRoutes");
 // Imports dailyEntry routes 
-const dailyEntryRoutes = require("./src/IndexerRoutes/dailyEntryRoutes");
+const dailyEntryRoutes = require("./src/commonRoutes/dailyEntryRoutes");
 // Imports guideRoutes routes
 const guideRoutes = require("./src/IndexerRoutes/guideRoutes");
 // Imports correction request routes

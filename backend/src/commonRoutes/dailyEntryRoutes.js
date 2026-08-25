@@ -6,21 +6,21 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   createEntry,
   getMyEntries,
-} = require("../IndexerControllers/dailyEntryController");
+} = require("../commonControllers/dailyEntryController");
 
 const router = express.Router();
 
 router.get(
   "/my",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   getMyEntries
 );
 
 router.post(
   "/",
   authenticate,
-  allowRoles("indexer"),
+  allowRoles("indexer","teamLead"),
   createEntry
 );
 
