@@ -33,6 +33,8 @@ const teamLeadDashboardRoutes = require("./src/TeamleadRoutes/dashboardRoutes");
 const teamLeadApprovalRoutes = require("./src/TeamleadRoutes/approvalRoutes");
 //Imports leave routes 
 const leaveRoutes = require("./src/commonRoutes/leaveRoutes");
+//password reset routes
+const passwordRoutes = require("./src/commonRoutes/passwordRoutes");
 
 
 // ============================================
@@ -111,6 +113,8 @@ app.use( "/api/team-lead",teamLeadDashboardRoutes);
 app.use("/api/team-lead", teamLeadApprovalRoutes);
 // Handles leave request APIs
 app.use("/api/leave-requests", leaveRoutes);
+// Handles resetpassword APIs
+app.use("/api/profile", passwordRoutes);
 
 
 // ============================================
