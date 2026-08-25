@@ -1,5 +1,4 @@
 const common = [
-  { label: 'Corrections', icon: '✅', page: 'corrections' },
   { label: 'Reports', icon: '📊', page: 'reports' },
   { label: 'Notifications', icon: '🔔', page: 'notifications', badge: { text: '2', color: 'error', dot: true } },
   { label: 'My Profile', icon: '👤', page: 'my-profile' },
@@ -12,6 +11,7 @@ export const sidebarConfig = {
     { label: 'Projects', icon: '📁', page: 'projects' },
     { label: 'Indexing Guide', icon: '📘', page: 'indexing-guide', badge: { text: 'NEW', color: 'success' } },
     { label: 'Attendance', icon: '🗓️', page: 'attendance' },
+    { label: 'Corrections', icon: '✅', page: 'corrections' },
     ...common,
   ],
 
@@ -23,7 +23,7 @@ export const sidebarConfig = {
     { label: 'Indexing Guide', icon: '📘', page: 'indexing-guide', badge: { text: 'NEW', color: 'success' } },
     { label: 'Corrections', icon: '✅', page: 'corrections', badge: { text: '4', color: 'error', dot: true } },
     { label: 'Attendance', icon: '🗓️', page: 'attendance' },
-    ...common.filter(item => item.page !== 'corrections'),
+    ...common,
   ],
 
   coreTeam: [
@@ -35,7 +35,7 @@ export const sidebarConfig = {
     { label: 'Guide Manager', icon: '📘', page: 'guide-manager' },
     { label: 'Corrections', icon: '✅', page: 'corrections', badge: { text: '6', color: 'error', dot: true } },
     { label: 'Compliance', icon: '🛡️', page: 'compliance' },
-    ...common.filter(item => item.page !== 'corrections'),
+    ...common,
   ],
 
   administrator: [
