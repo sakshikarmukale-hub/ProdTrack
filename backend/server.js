@@ -43,6 +43,8 @@ const coreTeamDashboardRoutes = require("./src/CoreteamRoutes/dashboardRoutes");
 const coreTeamAnalyticsRoutes = require("./src/CoreteamRoutes/analyticsRoutes");
 // Imports Core Team Project Master routes.
 const coreTeamProjectMasterRoutes = require("./src/CoreteamRoutes/projectMasterRoutes");
+// Imports Core Team user-management routes.
+const coreTeamUserManagementRoutes = require("./src/CoreteamRoutes/userManagementRoutes");
 
 
 // ============================================
@@ -131,6 +133,8 @@ app.use("/api/core-team",coreTeamDashboardRoutes);
 app.use("/api/core-team",coreTeamAnalyticsRoutes);
 // Registers Core Team Project Master APIs under /api/core-team.
 app.use("/api/core-team",coreTeamProjectMasterRoutes);
+// Registers Core Team user-management APIs under /api/core-team.
+app.use("/api/core-team",coreTeamUserManagementRoutes);
 
 // ============================================
 // SERVER
