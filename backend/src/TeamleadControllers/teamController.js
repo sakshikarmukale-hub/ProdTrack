@@ -42,15 +42,34 @@ const getMyTeam = async (req, res) => {
           ELSE 'DONE'
         END AS guide_acknowledgement,
 
-        COALESCE(
-          MAX(
-            CASE
-              WHEN a.attendance_date = CURDATE()
-              THEN a.status
-            END
-          ),
-          'NOT MARKED'
-        ) AS attendance_status
+        CASE
+  -- Shows LEAVE when today is inside an approved leave period.
+  WHEN EXISTS (
+    SELECT 1
+    FROM leave_requests lr
+    WHERE lr.user_id = u.id
+      AND lr.status = 'APPROVED'
+      AND CURDATE() BETWEEN lr.start_date AND lr.end_date
+  )
+  THEN 'LEAVE'
+
+  -- Shows today's attendance status when attendance is marked.
+  WHEN MAX(
+    CASE
+      WHEN a.attendance_date = CURDATE()
+      THEN a.status
+    END
+  ) IS NOT NULL
+  THEN MAX(
+    CASE
+      WHEN a.attendance_date = CURDATE()
+      THEN a.status
+    END
+  )
+
+  -- Shows NOT MARKED when there is no leave and no attendance.
+  ELSE 'NOT MARKED'
+END AS attendance_status
 
       FROM team_members tm
 

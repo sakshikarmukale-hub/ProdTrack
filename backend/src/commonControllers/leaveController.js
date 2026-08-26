@@ -1,6 +1,7 @@
 const db = require("../config/db");
 
 // Creates a leave request for the logged-in user
+// Creates a leave request and notifies the Team Lead
 const createLeaveRequest = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -15,7 +16,8 @@ const createLeaveRequest = async (req, res) => {
     if (!leaveType || !startDate || !endDate || !reason) {
       return res.status(400).json({
         success: false,
-        message: "Leave type, start date, end date and reason are required",
+        message:
+          "Leave type, start date, end date and reason are required",
       });
     }
 
@@ -26,6 +28,7 @@ const createLeaveRequest = async (req, res) => {
       });
     }
 
+    // Saves leave request as PENDING
     const [result] = await db.query(
       `
       INSERT INTO leave_requests
@@ -47,6 +50,42 @@ const createLeaveRequest = async (req, res) => {
         reason,
       ]
     );
+
+    // Finds the Team Lead of the logged-in employee
+    const [teamLeadRows] = await db.query(
+      `
+      SELECT team_lead_id
+      FROM team_members
+      WHERE member_id = ?
+      LIMIT 1
+      `,
+      [userId]
+    );
+
+    // Creates an unread notification for the Team Lead
+    if (teamLeadRows.length > 0) {
+      const teamLeadId = teamLeadRows[0].team_lead_id;
+
+      await db.query(
+        `
+        INSERT INTO notifications
+        (
+          user_id,
+          type,
+          title,
+          message,
+          is_read
+        )
+        VALUES (?, ?, ?, ?, 0)
+        `,
+        [
+          teamLeadId,
+          "GENERAL",
+          "New leave request",
+          "A team member has submitted a new leave request.",
+        ]
+      );
+    }
 
     return res.status(201).json({
       success: true,

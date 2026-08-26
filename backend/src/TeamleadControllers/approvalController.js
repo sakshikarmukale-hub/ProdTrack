@@ -1,6 +1,6 @@
 const db = require("../config/db");
 
-// Get pending correction requests from Team Lead's team
+// Gets pending correction requests from the Team Lead's team
 const getPendingApprovals = async (req, res) => {
   try {
     const teamLeadId = req.user.id;
@@ -49,7 +49,6 @@ const getPendingApprovals = async (req, res) => {
       count: requests.length,
       requests,
     });
-
   } catch (error) {
     console.error("Get Pending Approvals Error:", error);
 
@@ -61,22 +60,31 @@ const getPendingApprovals = async (req, res) => {
   }
 };
 
-// Approve a correction request
+
+// Approves a correction request and notifies the Indexer
 const approveCorrectionRequest = async (req, res) => {
   try {
     const teamLeadId = req.user.id;
     const requestId = req.params.id;
+
     const { reviewComment } = req.body;
 
-    // Make sure this request belongs to a member of this Team Lead's team
+    // Checks whether this request belongs to this Team Lead's team
     const [requests] = await db.query(
       `
-      SELECT cr.id, cr.status
+      SELECT
+        cr.id,
+        cr.user_id,
+        cr.status
       FROM correction_requests cr
+
       JOIN team_members tm
         ON tm.member_id = cr.user_id
+
       WHERE cr.id = ?
         AND tm.team_lead_id = ?
+
+      LIMIT 1
       `,
       [requestId, teamLeadId]
     );
@@ -95,15 +103,45 @@ const approveCorrectionRequest = async (req, res) => {
       });
     }
 
+    // Updates correction request status
     await db.query(
       `
       UPDATE correction_requests
       SET
         status = 'APPROVED',
+        reviewed_by = ?,
+        reviewed_at = NOW(),
         review_comment = ?
       WHERE id = ?
       `,
-      [reviewComment || null, requestId]
+      [
+        teamLeadId,
+        reviewComment || null,
+        requestId,
+      ]
+    );
+
+    const indexerId = requests[0].user_id;
+
+    // Creates notification automatically for the Indexer
+    await db.query(
+      `
+      INSERT INTO notifications
+      (
+        user_id,
+        type,
+        title,
+        message,
+        is_read
+      )
+      VALUES (?, ?, ?, ?, 0)
+      `,
+      [
+        indexerId,
+        "CORRECTION",
+        "Correction approved",
+        "Your correction request has been approved by your Team Lead.",
+      ]
     );
 
     return res.status(200).json({
@@ -122,21 +160,30 @@ const approveCorrectionRequest = async (req, res) => {
 };
 
 
-// Reject a correction request
+// Rejects a correction request and notifies the Indexer
 const rejectCorrectionRequest = async (req, res) => {
   try {
     const teamLeadId = req.user.id;
     const requestId = req.params.id;
+
     const { reviewComment } = req.body;
 
+    // Checks whether this request belongs to this Team Lead's team
     const [requests] = await db.query(
       `
-      SELECT cr.id, cr.status
+      SELECT
+        cr.id,
+        cr.user_id,
+        cr.status
       FROM correction_requests cr
+
       JOIN team_members tm
         ON tm.member_id = cr.user_id
+
       WHERE cr.id = ?
         AND tm.team_lead_id = ?
+
+      LIMIT 1
       `,
       [requestId, teamLeadId]
     );
@@ -155,15 +202,45 @@ const rejectCorrectionRequest = async (req, res) => {
       });
     }
 
+    // Updates correction request status
     await db.query(
       `
       UPDATE correction_requests
       SET
         status = 'REJECTED',
+        reviewed_by = ?,
+        reviewed_at = NOW(),
         review_comment = ?
       WHERE id = ?
       `,
-      [reviewComment || null, requestId]
+      [
+        teamLeadId,
+        reviewComment || null,
+        requestId,
+      ]
+    );
+
+    const indexerId = requests[0].user_id;
+
+    // Creates notification automatically for the Indexer
+    await db.query(
+      `
+      INSERT INTO notifications
+      (
+        user_id,
+        type,
+        title,
+        message,
+        is_read
+      )
+      VALUES (?, ?, ?, ?, 0)
+      `,
+      [
+        indexerId,
+        "CORRECTION",
+        "Correction rejected",
+        "Your correction request has been rejected by your Team Lead.",
+      ]
     );
 
     return res.status(200).json({
@@ -181,9 +258,9 @@ const rejectCorrectionRequest = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getPendingApprovals,
   approveCorrectionRequest,
   rejectCorrectionRequest,
-
 };
