@@ -39,6 +39,8 @@ const passwordRoutes = require("./src/commonRoutes/passwordRoutes");
 const teamLeadLeaveRoutes = require("./src/TeamleadRoutes/leaveApprovalRoutes");
 // Imports Core Team dashboard routes.
 const coreTeamDashboardRoutes = require("./src/CoreteamRoutes/dashboardRoutes");
+// Imports Core Team Analytics routes.
+const coreTeamAnalyticsRoutes = require("./src/CoreteamRoutes/analyticsRoutes");
 
 
 // ============================================
@@ -123,6 +125,8 @@ app.use("/api/profile", passwordRoutes);
 app.use("/api/team-lead", teamLeadLeaveRoutes);
 // Registers Core Team dashboard APIs under /api/core-team.
 app.use("/api/core-team",coreTeamDashboardRoutes);
+// Registers Core Team Analytics APIs under /api/core-team.
+app.use("/api/core-team",coreTeamAnalyticsRoutes);
 
 // ============================================
 // SERVER
