@@ -37,6 +37,8 @@ const leaveRoutes = require("./src/commonRoutes/leaveRoutes");
 const passwordRoutes = require("./src/commonRoutes/passwordRoutes");
 // Imports the Team Lead leave approval routes.
 const teamLeadLeaveRoutes = require("./src/TeamleadRoutes/leaveApprovalRoutes");
+// Imports Core Team dashboard routes.
+const coreTeamDashboardRoutes = require("./src/CoreteamRoutes/dashboardRoutes");
 
 
 // ============================================
@@ -119,7 +121,8 @@ app.use("/api/leave-requests", leaveRoutes);
 app.use("/api/profile", passwordRoutes);
 // Registers all Team Lead leave approval APIs under /api/team-lead.
 app.use("/api/team-lead", teamLeadLeaveRoutes);
-
+// Registers Core Team dashboard APIs under /api/core-team.
+app.use("/api/core-team",coreTeamDashboardRoutes);
 
 // ============================================
 // SERVER
