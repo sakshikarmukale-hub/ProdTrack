@@ -41,6 +41,8 @@ const teamLeadLeaveRoutes = require("./src/TeamleadRoutes/leaveApprovalRoutes");
 const coreTeamDashboardRoutes = require("./src/CoreteamRoutes/dashboardRoutes");
 // Imports Core Team Analytics routes.
 const coreTeamAnalyticsRoutes = require("./src/CoreteamRoutes/analyticsRoutes");
+// Imports Core Team Project Master routes.
+const coreTeamProjectMasterRoutes = require("./src/CoreteamRoutes/projectMasterRoutes");
 
 
 // ============================================
@@ -127,6 +129,8 @@ app.use("/api/team-lead", teamLeadLeaveRoutes);
 app.use("/api/core-team",coreTeamDashboardRoutes);
 // Registers Core Team Analytics APIs under /api/core-team.
 app.use("/api/core-team",coreTeamAnalyticsRoutes);
+// Registers Core Team Project Master APIs under /api/core-team.
+app.use("/api/core-team",coreTeamProjectMasterRoutes);
 
 // ============================================
 // SERVER
