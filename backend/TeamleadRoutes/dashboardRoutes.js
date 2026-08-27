@@ -15,7 +15,7 @@ const {
   getDashboardTeamMembers,
   getTeamAvailability,
   getAvailabilityProductivity,
-} = require("../TeamleadControllers/dashboardController");
+} = require("./TeamleadControllers/dashboardController");
 
 // Creates an Express router for Team Lead dashboard APIs.
 const router = express.Router();

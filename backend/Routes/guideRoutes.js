@@ -8,7 +8,7 @@ const {
   acknowledgeGuide,
   getGuideHistory,
    downloadGuide,
-} = require("../commonControllers/guideController");
+} = require("./Controller/guideController");
 
 const router = express.Router();
 

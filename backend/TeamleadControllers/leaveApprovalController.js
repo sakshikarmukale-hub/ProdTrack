@@ -1,5 +1,5 @@
 // Imports the database connection.
-const db = require("../config/db");
+const db = require("./config/db");
 
 
 // Gets all pending leave requests belonging to the Team Lead's team.

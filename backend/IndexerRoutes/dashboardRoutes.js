@@ -5,7 +5,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 
 const {
   getIndexerDashboard,
-} = require("../IndexerControllers/dashboardController");
+} = require("./IndexerControllers/dashboardController");
 
 const router = express.Router();
 

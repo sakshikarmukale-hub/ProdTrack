@@ -6,7 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   getMyReportSummary,
   getMyDailyProduction,
-} = require("../commonControllers/reportController");
+} = require("./Controller/reportController");
 
 const router = express.Router();
 

@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 dotenv.config();
 
-const db = require("./src/config/db");
+const db = require("../config/db");
 
 // Creates demo Indexer users for Rohan's team
 async function createTeamMembers() {

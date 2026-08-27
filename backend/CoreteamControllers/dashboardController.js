@@ -1,5 +1,5 @@
 // Imports the MySQL database connection.
-const db = require("../config/db");
+const db = require("./config/db");
 
 
 // Gets the main Core Team dashboard summary cards.

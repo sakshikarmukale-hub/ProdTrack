@@ -14,7 +14,7 @@ const {
   getUserProjects,
   createUser,
   updateUser,
-} = require("../CoreteamControllers/userManagementController");
+} = require("./CoreteamControllers/userManagementController");
 
 // Creates an Express router for Core Team Users APIs.
 const router = express.Router();

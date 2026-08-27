@@ -6,7 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   createLeaveRequest,
   getMyLeaveRequests,
-} = require("../commonControllers/leaveController");
+} = require("./Controller/leaveController");
 
 const router = express.Router();
 

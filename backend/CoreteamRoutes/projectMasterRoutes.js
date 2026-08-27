@@ -13,7 +13,7 @@ const {
   createProject,
   updateProject,
   getTeamLeads,
-} = require("../CoreteamControllers/projectMasterController");
+} = require("./CoreteamControllers/projectMasterController");
 
 // Creates an Express router for Core Team Project Master APIs.
 const router = express.Router();

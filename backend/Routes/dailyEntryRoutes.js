@@ -6,7 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   createEntry,
   getMyEntries,
-} = require("../commonControllers/dailyEntryController");
+} = require("./Controller/dailyEntryController");
 
 const router = express.Router();
 

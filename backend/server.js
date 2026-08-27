@@ -4,47 +4,47 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const db = require("./src/config/db");
-const authRoutes = require("./src/commonRoutes/authRoutes");
+const db = require("./config/db");
+const authRoutes = require("./Routes/authRoutes");
 
 const app = express();
-const dashboardRoutes = require("./src/IndexerRoutes/dashboardRoutes");
+const dashboardRoutes = require("./IndexerRoutes/dashboardRoutes");
 // Imports Project routes 
-const projectRoutes = require("./src/commonRoutes/projectRoutes");
+const projectRoutes = require("./Routes/projectRoutes");
 // Imports dailyEntry routes 
-const dailyEntryRoutes = require("./src/commonRoutes/dailyEntryRoutes");
+const dailyEntryRoutes = require("./Routes/dailyEntryRoutes");
 // Imports guideRoutes routes
-const guideRoutes = require("./src/commonRoutes/guideRoutes");
+const guideRoutes = require("./Routes/guideRoutes");
 // Imports correction request routes
-const correctionRoutes = require("./src/IndexerRoutes/correctionRoutes");
+const correctionRoutes = require("./IndexerRoutes/correctionRoutes");
 // Imports attendance routes
-const attendanceRoutes = require("./src/commonRoutes/attendanceRoutes");
+const attendanceRoutes = require("./Routes/attendanceRoutes");
 // Imports notification routes
-const notificationRoutes = require("./src/commonRoutes/notificationRoutes");
+const notificationRoutes = require("./Routes/notificationRoutes");
 // Imports profile routes
-const profileRoutes = require("./src/commonRoutes/profileRoutes");
+const profileRoutes = require("./Routes/profileRoutes");
 // Imports report routes
-const reportRoutes = require("./src/commonRoutes/reportRoutes");
+const reportRoutes = require("./Routes/reportRoutes");
 // Imports Team Lead team routes
-const teamRoutes = require("./src/TeamleadRoutes/teamRoutes");
+const teamRoutes = require("./TeamleadRoutes/teamRoutes");
 //handle teamlead dashbaords 
-const teamLeadDashboardRoutes = require("./src/TeamleadRoutes/dashboardRoutes");
+const teamLeadDashboardRoutes = require("./TeamleadRoutes/dashboardRoutes");
 //
-const teamLeadApprovalRoutes = require("./src/TeamleadRoutes/approvalRoutes");
+const teamLeadApprovalRoutes = require("./TeamleadRoutes/approvalRoutes");
 //Imports leave routes 
-const leaveRoutes = require("./src/commonRoutes/leaveRoutes");
+const leaveRoutes = require("./Routes/leaveRoutes");
 //password reset routes
-const passwordRoutes = require("./src/commonRoutes/passwordRoutes");
+const passwordRoutes = require("./Routes/passwordRoutes");
 // Imports the Team Lead leave approval routes.
-const teamLeadLeaveRoutes = require("./src/TeamleadRoutes/leaveApprovalRoutes");
+const teamLeadLeaveRoutes = require("./TeamleadRoutes/leaveApprovalRoutes");
 // Imports Core Team dashboard routes.
-const coreTeamDashboardRoutes = require("./src/CoreteamRoutes/dashboardRoutes");
+const coreTeamDashboardRoutes = require("./CoreteamRoutes/dashboardRoutes");
 // Imports Core Team Analytics routes.
-const coreTeamAnalyticsRoutes = require("./src/CoreteamRoutes/analyticsRoutes");
+const coreTeamAnalyticsRoutes = require("./CoreteamRoutes/analyticsRoutes");
 // Imports Core Team Project Master routes.
-const coreTeamProjectMasterRoutes = require("./src/CoreteamRoutes/projectMasterRoutes");
+const coreTeamProjectMasterRoutes = require("./CoreteamRoutes/projectMasterRoutes");
 // Imports Core Team user-management routes.
-const coreTeamUserManagementRoutes = require("./src/CoreteamRoutes/userManagementRoutes");
+const coreTeamUserManagementRoutes = require("./CoreteamRoutes/userManagementRoutes");
 
 
 // ============================================

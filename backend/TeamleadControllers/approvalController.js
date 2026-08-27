@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("./config/db");
 
 // Gets pending correction requests from the Team Lead's team
 const getPendingApprovals = async (req, res) => {

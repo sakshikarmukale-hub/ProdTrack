@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 
 // Imports the MySQL database connection.
-const db = require("../config/db");
+const db = require("./config/db");
 
 
 // Generates the next employee ID such as EMP-1051.

@@ -5,7 +5,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 
 const {
   changePassword,
-} = require("../commonControllers/passwordController");
+} = require("./Controller/passwordController");
 
 const router = express.Router();
 

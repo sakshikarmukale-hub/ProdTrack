@@ -15,7 +15,7 @@ const {
   getPendingCorrections,
   getGuideCompliance,
   getMissingEntries,
-} = require("../CoreteamControllers/dashboardController");
+} = require("./CoreteamControllers/dashboardController");
 
 // Creates an Express router for Core Team dashboard APIs.
 const router = express.Router();

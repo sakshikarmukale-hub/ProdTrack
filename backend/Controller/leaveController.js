@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("./config/db");
 
 // Creates a leave request for the logged-in user
 // Creates a leave request and notifies the Team Lead

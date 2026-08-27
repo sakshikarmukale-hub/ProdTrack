@@ -12,7 +12,7 @@ const {
   getPendingLeaveRequests,
   approveLeaveRequest,
   rejectLeaveRequest,
-} = require("../TeamleadControllers/leaveApprovalController");
+} = require("./TeamleadControllers/leaveApprovalController");
 
 // Creates an Express router for Team Lead leave APIs.
 const router = express.Router();

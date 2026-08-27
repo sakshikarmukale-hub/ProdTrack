@@ -8,7 +8,7 @@ const {
   approveCorrectionRequest,
   rejectCorrectionRequest,
 
-} = require("../TeamleadControllers/approvalController");
+} = require("./TeamleadControllers/approvalController");
 
 const router = express.Router();
 

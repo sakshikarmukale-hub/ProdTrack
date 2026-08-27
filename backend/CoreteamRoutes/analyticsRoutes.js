@@ -15,7 +15,7 @@ const {
   getTopPerformers,
   getCompletedVsTarget,
   getStatusDistribution,
-} = require("../CoreteamControllers/analyticsController");
+} = require("./CoreteamControllers/analyticsController");
 
 // Creates an Express router for Core Team Analytics APIs.
 const router = express.Router();

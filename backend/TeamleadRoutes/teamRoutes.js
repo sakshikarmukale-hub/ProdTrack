@@ -5,7 +5,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 
 const {
   getMyTeam,
-} = require("../TeamleadControllers/teamController");
+} = require("./TeamleadControllers/teamController");
 
 const router = express.Router();
 

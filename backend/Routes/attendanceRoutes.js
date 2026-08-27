@@ -6,7 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   getMyAttendance,
   getAttendanceSummary,
-} = require("../commonControllers/attendanceController");
+} = require("./Controller/attendanceController");
 
 const router = express.Router();
 

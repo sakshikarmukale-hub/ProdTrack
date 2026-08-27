@@ -6,7 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 const {
   createCorrectionRequest,
   getMyCorrectionRequests,
-} = require("../IndexerControllers/correctionController");
+} = require("./IndexerControllers/correctionController");
 
 const router = express.Router();
 

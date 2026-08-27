@@ -1,5 +1,5 @@
 // Imports the MySQL database connection.
-const db = require("../config/db");
+const db = require("./config/db");
 
 
 // Gets all projects for the Core Team Project Master screen.

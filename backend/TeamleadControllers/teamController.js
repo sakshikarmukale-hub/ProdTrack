@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("./config/db");
 
 // Gets all team members reporting to the logged-in Team Lead
 const getMyTeam = async (req, res) => {
